@@ -1,0 +1,9 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "include": [".eslintrc.js", "**/**/*.tsx", "**/**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+  }
+
+}

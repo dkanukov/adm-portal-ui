@@ -14,7 +14,7 @@ defineComponent({
 		return (
 			<div>
 				<div>{this.test}</div>
-				<NuxtPage/>
+				<NuxtPage />
 			</div>
 		)
 	}

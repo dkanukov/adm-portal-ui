@@ -1,20 +1,12 @@
-import {defineComponent, ref,} from '#imports'
-import {NuxtPage} from '#components'
+import {defineComponent} from '#imports'
+import {NuxtPage, Header} from '#components'
 
-defineComponent({
-	setup() {
-		const test = ref('')
-
-		return {
-			test
-		}
-	},
-
+export default defineComponent({
 	render() {
 		return (
 			<div>
-				<div>{this.test}</div>
-				<NuxtPage />
+				<Header/>
+				<NuxtPage/>
 			</div>
 		)
 	}

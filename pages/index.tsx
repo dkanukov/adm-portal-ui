@@ -1,4 +1,5 @@
 import {defineComponent, definePageMeta} from '#imports'
+import {Sidebar} from '#components'
 
 export default defineComponent({
 	setup() {
@@ -9,7 +10,9 @@ export default defineComponent({
 
 	render() {
 		return (
-			<div>Here is page</div>
+			<div>
+				<Sidebar/>
+			</div>
 		)
 	}
 })

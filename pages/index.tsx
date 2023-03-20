@@ -5,15 +5,11 @@ export default defineComponent({
 		definePageMeta({
 			layout: 'default',
 		})
-		const test = 1
-		return {
-			test
-		}
 	},
 
 	render() {
 		return (
-			<div>{this.test}</div>
+			<div>Here is page</div>
 		)
 	}
 })

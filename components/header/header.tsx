@@ -1,4 +1,5 @@
 import {defineComponent, definePageMeta} from '#imports'
+import {NuxtLink} from '#components'
 import {VMenu, VBtn, VList, VListItem, VListItemTitle} from 'vuetify/components'
 import styles from './styles.module.css'
 
@@ -6,14 +7,19 @@ export default defineComponent({
 	render() {
 		return (
 			<div class={styles.header}>
-				123
-				<VBtn color={'primary'}>
+				<VBtn variant={'tonal'} color={'primary'}>
 					Параметры
 					<VMenu activator={'parent'}>
 						<VList>
-							<VListItem>
-								<VListItemTitle>Link 1</VListItemTitle>
-								<VListItemTitle>Link 2</VListItemTitle>
+							<VListItem to={'/'}>
+								<VListItemTitle>
+									Ед. измерения
+								</VListItemTitle>
+							</VListItem>
+							<VListItem to={'/options'}>
+								<VListItemTitle>
+									Параметры
+								</VListItemTitle>
 							</VListItem>
 						</VList>
 					</VMenu>

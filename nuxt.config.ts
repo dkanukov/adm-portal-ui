@@ -10,12 +10,6 @@ export default defineNuxtConfig({
 		typeCheck: true,
 	},
 	modules: ['@pinia/nuxt'],
-	components: [
-		{
-			path: '~/components',
-			extensions: ['.tsx'],
-			pathPrefix: false,
-		}
-	],
+	
 	ssr: false,
 })

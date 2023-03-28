@@ -1,19 +1,15 @@
 import {defineComponent, definePageMeta} from '#imports'
+import {Sidebar} from '#components'
 
 export default defineComponent({
 	setup() {
-		definePageMeta({
-			layout: 'default',
-		})
-		const test = 1
-		return {
-			test
-		}
 	},
 
 	render() {
 		return (
-			<div>{this.test}</div>
+			<div>
+				<Sidebar/>
+			</div>
 		)
 	}
 })

@@ -6,14 +6,21 @@ export default defineComponent({
 	render() {
 		return (
 			<div class={styles.header}>
-				123
 				<VBtn color={'primary'}>
 					Параметры
 					<VMenu activator={'parent'}>
 						<VList>
-							<VListItem>
-								<VListItemTitle>Link 1</VListItemTitle>
-								<VListItemTitle>Link 2</VListItemTitle>
+							<VListItem
+								href={'/'}
+								active={this.$router.currentRoute.value.fullPath === '/'}
+							>
+								<VListItemTitle>Единицы измерения</VListItemTitle>
+							</VListItem>
+							<VListItem
+								href={'/options'}
+								active={this.$router.currentRoute.value.fullPath === '/options'}
+							>
+								<VListItemTitle>Параметры</VListItemTitle>
 							</VListItem>
 						</VList>
 					</VMenu>

@@ -1,15 +1,23 @@
 <script setup>
 		definePageMeta({
 			layout: 'default',
-		})</script>
+		})
+		const items = ref([{name: "Ампер", descriprion: "А"}, {name: "Ватты", descriprion: "Вт"}, {name: "Вольты", descriprion: "В"}, {name: "Герцы", descriprion: "Гц"}]);
+		function addNewItem (){
+			items.value.push({name:"Новая единица измерения", description:"123"})
+		}
+		</script>
 
 <template>
 			<div class="page-wrapper">
-				<Sidebar/> 
 				<div>
-				<OptionForm />
-				<Table />
-				<VBtn class="add" color="#1867C0">Добавить</VBtn>
+					<VBtn class="add" color="#1867C0" @click="addNewItem">Добавить единицу измерения</VBtn>
+					<Sidebar :items="items"/> 
+				</div>
+				<div>
+					<OptionForm />
+					<Table />
+					<VBtn class="add" color="#1867C0">Добавить</VBtn>
 				</div>
 			</div>
 </template>	

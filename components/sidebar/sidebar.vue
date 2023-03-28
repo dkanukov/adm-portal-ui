@@ -1,5 +1,5 @@
 <script setup>
-	const items = ref([{name: "Ампер", descriprion: "А"}, {name: "Ватты", descriprion: "Вт"}, {name: "Вольты", descriprion: "В"}, {name: "Герцы", descriprion: "Гц"}])
+defineProps({items:Array})
 </script>
 
 <template>

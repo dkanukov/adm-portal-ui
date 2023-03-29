@@ -1,32 +1,22 @@
 import {defineComponent} from '#imports'
-import {Sidebar} from '#components'
+import {ParametrsSidebar} from '#components'
+import {parameterStore} from '~/store/parametrs'
+import styles from './styles.module.css'
 
 export default defineComponent({
 	setup() {
-		// TODO: убрать весь хардкор когда будет бэк
-		const optionsList = [
-			{
-				id: 1,
-				name: 'option 1'
-			},
-			{
-				id: 2,
-				name: 'option 2'
-			},
-			{
-				id: 3,
-				name: 'option 3'
-			}
-		]
+		const parameter = parameterStore()
 		return {
-			optionsList
+			parameterStore: parameter,
 		}
 	},
 	render() {
 		return (
-			<div>
-				<Sidebar
-					optionsList={this.optionsList}
+			<div class={styles.parametersPage}>
+				<ParametrsSidebar
+					parametersList={this.parameterStore.parametersList}
+					whenSelectParameter={this.parameterStore.whenSelectParameter}
+					selectedParameter={this.parameterStore.selectedParameter}
 				/>
 			</div>
 		)

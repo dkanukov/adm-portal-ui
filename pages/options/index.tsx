@@ -1,5 +1,5 @@
 import {defineComponent} from '#imports'
-import {ParametrsSidebar} from '#components'
+import {ParametrsSidebar, ParametersInfo} from '#components'
 import {parameterStore} from '~/store/parametrs'
 import styles from './styles.module.css'
 
@@ -18,6 +18,7 @@ export default defineComponent({
 					whenSelectParameter={this.parameterStore.whenSelectParameter}
 					selectedParameter={this.parameterStore.selectedParameter}
 				/>
+				<ParametersInfo/>
 			</div>
 		)
 	}

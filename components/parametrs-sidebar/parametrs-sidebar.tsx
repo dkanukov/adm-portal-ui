@@ -6,6 +6,7 @@ import styles from './styles.module.css'
 export interface Parameter {
 	id: number,
 	name: string,
+	isCorrect: boolean
 }
 
 export default defineComponent({
@@ -15,7 +16,7 @@ export default defineComponent({
 			required: true,
 		},
 		selectedParameter: {
-			type: Object as PropType<Parameter | null>,
+			type: (Object || null) as PropType<Parameter | null>,
 			required: true,
 		},
 		whenSelectParameter: {
@@ -25,12 +26,12 @@ export default defineComponent({
 	},
 
 	setup(props){
-		function handleIconSelect(selectedItemId: number) {
+		function handleParameterSelect(selectedItemId: number) {
 			props.whenSelectParameter(selectedItemId)
 		}
 
 		return {
-			handleIconSelect,
+			handleParameterSelect,
 		}
 	},
 
@@ -48,7 +49,8 @@ export default defineComponent({
 									/*TODO: разобраться почему нет onClick*/
 									/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
 									/*@ts-ignore*/
-									onClick={() => this.handleIconSelect(parameter.id)}
+									onClick={() => this.handleParameterSelect(parameter.id)}
+									color={!parameter.isCorrect ? 'error' : ''}
 								>
 									{parameter.name}
 								</VBtn>

@@ -7,15 +7,18 @@ export const parameterStore = defineStore('parameterStore', () =>{
 	const parametersList: Ref<Parameter[]> = ref([
 		{
 			id: 1,
-			name: 'option 1'
+			name: 'option 1',
+			isCorrect: true,
 		},
 		{
 			id: 2,
-			name: 'option 2'
+			name: 'option 2',
+			isCorrect: true,
 		},
 		{
 			id: 3,
-			name: 'option 3'
+			name: 'option 3',
+			isCorrect: false,
 		}
 	])
 	const selectedParameter: Ref<Parameter | null> = ref(null)
@@ -24,7 +27,6 @@ export const parameterStore = defineStore('parameterStore', () =>{
 		if (newParameter) {
 			selectedParameter.value = newParameter
 		}
-		console.log(selectedParameter.value)
 	}
 
 	return {

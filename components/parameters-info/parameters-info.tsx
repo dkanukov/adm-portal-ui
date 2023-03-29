@@ -9,6 +9,10 @@ export default defineComponent({
 		selectedParameter: {
 			type: Object as PropType<Parameter>,
 			required: true,
+		},
+		whenSelectedParameterFieldChange: {
+			type: Function as PropType<(newValue: Parameter)=> void>,
+			required: true,
 		}
 	},
 	render() {
@@ -16,6 +20,7 @@ export default defineComponent({
 			<div class={styles.parametersController}>
 				<ParametersInfoController
 					selectedParameter={this.selectedParameter}
+					whenSelectedParameterFieldChange={this.whenSelectedParameterFieldChange}
 				/>
 			</div>
 		)

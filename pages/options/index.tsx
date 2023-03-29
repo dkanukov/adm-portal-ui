@@ -22,6 +22,7 @@ export default defineComponent({
 				{this.parameterStore.selectedParameter &&
 					<ParametersInfo
 					selectedParameter={this.parameterStore.selectedParameter}
+					whenSelectedParameterFieldChange={this.parameterStore.whenSelectedParameterFieldChange}
 				/>
 				}
 			</div>

@@ -37,9 +37,24 @@ export const parameterStore = defineStore('parameterStore', () =>{
 		}
 	}
 
+	function whenSelectedParameterFieldChange(newValue: Parameter) {
+		if (!selectedParameter.value) {
+			return
+		}
+		selectedParameter.value = {...newValue}
+
+		const parameterToUpdate = parametersList.value.find((param) => param.id === newValue.id)
+		if (parameterToUpdate) {
+			parameterToUpdate.name = newValue.name
+			parameterToUpdate.abbreviation = newValue.abbreviation
+			parameterToUpdate.description = newValue.description
+		}
+	}
+
 	return {
 		parametersList,
 		selectedParameter,
-		whenSelectParameter
+		whenSelectParameter,
+		whenSelectedParameterFieldChange
 	}
 })

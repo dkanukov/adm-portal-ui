@@ -1,9 +1,10 @@
 import {defineComponent, ref, isReactive, toRef, reactive} from '#imports'
-import {VTextField, VTextarea, VChip, VBtn, VSelect} from 'vuetify/components'
+import {VTextField, VTextarea, VChip, VBtn, VSelect, VCheckbox} from 'vuetify/components'
 import {mdiCommentMultipleOutline} from '@mdi/js'
 import styles from './styles.module.css'
 import {PropType} from 'vue'
 import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
+import {parameterTypes} from '~/constants/parameter-types'
 
 export default defineComponent({
 	props: {
@@ -14,6 +15,14 @@ export default defineComponent({
 		whenSelectedParameterFieldChange: {
 			type: Function as PropType<(newValue: Parameter) => void>,
 			required: true,
+		},
+		parameterType: {
+			type: Object as PropType<{value: string, option: string}>,
+			required: true,
+		},
+		handleParameterTypeChange: {
+			type: Function as PropType<(value: {value: string, option: string}) => void>,
+			required: true,
 		}
 	},
 
@@ -21,6 +30,7 @@ export default defineComponent({
 		const parameterName = ref(props.selectedParameter.name)
 		const parameterAbbr = ref(props.selectedParameter.abbreviation)
 		const parameterDescription = ref(props.selectedParameter.description)
+		const isInteger = ref(false)
 
 		function handleParameterNameInput(value: string) {
 			parameterName.value = value
@@ -50,6 +60,7 @@ export default defineComponent({
 			handleParameterNameInput,
 			handleParameterAbbrInput,
 			handleParameterDescriptionInput,
+			isInteger,
 		}
 	},
 
@@ -88,7 +99,27 @@ export default defineComponent({
 					/>
 				</div>
 				<div class={styles.row}>
-
+					<VSelect
+						class={styles.selectFixedWidth}
+						modelValue={this.parameterType}
+						variant={'outlined'}
+						items={parameterTypes}
+						itemTitle={'option'}
+						itemValue={'value'}
+						returnObject
+						onUpdate:modelValue={this.handleParameterTypeChange}
+					/>
+					{this.parameterType.value === 'relatedToScheme' && (
+						<VCheckbox
+							label={'Целочисленный параметр'}
+							color={'success'}
+							modelValue={this.isInteger}
+							/*TODO: deal*/
+							/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+							/* @ts-ignore */
+							onClick={() => this.isInteger = !this.isInteger}
+						/>
+					)}
 				</div>
 			</div>
 		)

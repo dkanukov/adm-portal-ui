@@ -7,3 +7,7 @@
 .inputFixedHeight {
     height: 54px;
 }
+
+.selectFixedWidth {
+    max-width: 280px;
+}

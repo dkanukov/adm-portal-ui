@@ -6,6 +6,7 @@ import styles from './styles.module.css'
 export default defineComponent({
 	setup() {
 		const parameter = parameterStore()
+		console.log(parameter.selectedParameter)
 		return {
 			parameterStore: parameter,
 		}
@@ -18,7 +19,11 @@ export default defineComponent({
 					whenSelectParameter={this.parameterStore.whenSelectParameter}
 					selectedParameter={this.parameterStore.selectedParameter}
 				/>
-				<ParametersInfo/>
+				{this.parameterStore.selectedParameter &&
+					<ParametersInfo
+					selectedParameter={this.parameterStore.selectedParameter}
+				/>
+				}
 			</div>
 		)
 	}

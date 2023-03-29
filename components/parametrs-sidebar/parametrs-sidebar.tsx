@@ -7,6 +7,8 @@ export interface Parameter {
 	id: number,
 	name: string,
 	isCorrect: boolean
+	abbreviation: string
+	description: string,
 }
 
 export default defineComponent({

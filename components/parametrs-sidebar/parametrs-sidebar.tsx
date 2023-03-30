@@ -48,10 +48,10 @@ export default defineComponent({
 									variant={'text'}
 									value={parameter.id}
 									active={this.selectedParameter?.id === parameter.id}
-									/*TODO: разобраться почему нет onClick*/
+									/*TODO: deal*/
 									/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
 									/*@ts-ignore*/
-									onClick={() => this.handleParameterSelect(parameter.id)}
+									onClick={() =>this.handleParameterSelect(parameter.id)}
 									color={!parameter.isCorrect ? 'error' : ''}
 								>
 									{parameter.name}

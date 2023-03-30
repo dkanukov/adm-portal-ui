@@ -1,8 +1,8 @@
 import {defineComponent, ref, isReactive, toRef, reactive} from '#imports'
-import {VTextField, VTextarea, VChip, VBtn, VSelect, VCheckbox} from 'vuetify/components'
+import {VTextField, VTextarea, VChip, VBtn, VSelect, VCheckbox, VDialog, VCard} from 'vuetify/components'
 import {mdiCommentMultipleOutline} from '@mdi/js'
 import styles from './styles.module.css'
-import {PropType} from 'vue'
+import {PropType, Ref} from 'vue'
 import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
 import {parameterTypes} from '~/constants/parameter-types'
 
@@ -31,6 +31,7 @@ export default defineComponent({
 		const parameterAbbr = ref(props.selectedParameter.abbreviation)
 		const parameterDescription = ref(props.selectedParameter.description)
 		const isInteger = ref(false)
+		const isShowThread= ref(false)
 
 		function handleParameterNameInput(value: string) {
 			parameterName.value = value
@@ -61,6 +62,7 @@ export default defineComponent({
 			handleParameterAbbrInput,
 			handleParameterDescriptionInput,
 			isInteger,
+			isShowThread,
 		}
 	},
 
@@ -69,13 +71,14 @@ export default defineComponent({
 			<div>
 				<div class={styles.row}>
 					<VBtn
+						ref={'dialogActivator'}
 						icon={mdiCommentMultipleOutline}
 						variant={'text'}
 						color={'#616161'}
 						/*TODO: deal*/
 						/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
 						/* @ts-ignore */
-						onClick={() => console.log('open chat')}
+						onClick={() => this.isShowThread = !this.isShowThread}
 					/>
 					<VTextField
 						class={styles.inputFixedHeight}
@@ -116,11 +119,27 @@ export default defineComponent({
 							modelValue={this.isInteger}
 							/*TODO: deal*/
 							/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-							/* @ts-ignore */
+							/*@ts-ignore*/
 							onClick={() => this.isInteger = !this.isInteger}
 						/>
 					)}
 				</div>
+				<VDialog
+					class={styles.dialog}
+					modelValue={this.isShowThread}
+					height={'100%'}
+					width={'100%'}
+					scrim={false}
+					fullscreen
+				>
+					<VCard
+						class={styles.card}
+						height={'100%'}
+						width={'100%'}
+					>
+						<h1>123</h1>
+					</VCard>
+				</VDialog>
 			</div>
 		)
 	}

@@ -5,8 +5,6 @@ import {PropType} from 'vue'
 import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
 import {parameterTypes} from '~/constants/parameter-types'
 
-// TODO: вынести в константы
-
 export default defineComponent({
 	props: {
 		selectedParameter: {

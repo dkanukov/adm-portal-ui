@@ -1,3 +1,4 @@
+// TODO: мб сделать enum, надо подумать
 export const parameterTypes = [
 	{
 		value: 'relatedToScheme',

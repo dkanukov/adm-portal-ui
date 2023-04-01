@@ -1,0 +1,4 @@
+.dialog {
+    position: absolute;
+    left: calc(100vw - 40%);
+}

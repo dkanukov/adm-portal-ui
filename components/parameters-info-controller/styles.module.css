@@ -11,14 +11,3 @@
 .selectFixedWidth {
     max-width: 280px;
 }
-
-.dialog {
-    background: #000;
-    position: absolute;
-    left: calc(100vw - 40%);
-    /*right: 0 !important;*/
-}
-
-.card {
-    background-color: red;
-}

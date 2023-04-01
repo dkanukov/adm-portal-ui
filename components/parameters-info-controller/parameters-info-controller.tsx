@@ -1,8 +1,9 @@
-import {defineComponent, ref, isReactive, toRef, reactive} from '#imports'
-import {VTextField, VTextarea, VChip, VBtn, VSelect, VCheckbox, VDialog, VCard} from 'vuetify/components'
-import {mdiCommentMultipleOutline} from '@mdi/js'
+import {defineComponent, ref} from '#imports'
+import {ParameterThread} from '#components'
+import {VTextField, VTextarea, VBtn, VSelect, VCheckbox, VDialog, VCard, VToolbar, VToolbarTitle, VSpacer} from 'vuetify/components'
+import {mdiCommentMultipleOutline, mdiClose} from '@mdi/js'
 import styles from './styles.module.css'
-import {PropType, Ref} from 'vue'
+import {PropType} from 'vue'
 import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
 import {parameterTypes} from '~/constants/parameter-types'
 
@@ -57,12 +58,17 @@ export default defineComponent({
 			})
 		}
 
+		function handleCloseThreadButtonClick() {
+			isShowThread.value = false
+		}
+
 		return {
 			handleParameterNameInput,
 			handleParameterAbbrInput,
 			handleParameterDescriptionInput,
 			isInteger,
 			isShowThread,
+			handleCloseThreadButtonClick,
 		}
 	},
 
@@ -71,7 +77,6 @@ export default defineComponent({
 			<div>
 				<div class={styles.row}>
 					<VBtn
-						ref={'dialogActivator'}
 						icon={mdiCommentMultipleOutline}
 						variant={'text'}
 						color={'#616161'}
@@ -109,7 +114,7 @@ export default defineComponent({
 						items={parameterTypes}
 						itemTitle={'option'}
 						itemValue={'value'}
-						returnObject
+            returnObject
 						onUpdate:modelValue={this.handleParameterTypeChange}
 					/>
 					{this.parameterType.value === 'relatedToScheme' && (
@@ -124,22 +129,11 @@ export default defineComponent({
 						/>
 					)}
 				</div>
-				<VDialog
-					class={styles.dialog}
-					modelValue={this.isShowThread}
-					height={'100%'}
-					width={'100%'}
-					scrim={false}
-					fullscreen
-				>
-					<VCard
-						class={styles.card}
-						height={'100%'}
-						width={'100%'}
-					>
-						<h1>123</h1>
-					</VCard>
-				</VDialog>
+				<ParameterThread
+					handleCloseThreadButtonClick={this.handleCloseThreadButtonClick}
+					isShowThread={this.isShowThread}
+					selectedParameter={this.selectedParameter}
+				/>
 			</div>
 		)
 	}

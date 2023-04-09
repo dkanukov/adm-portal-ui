@@ -27,6 +27,7 @@ export const parameterStore = defineStore('parameterStore', () =>{
 			description: 'descr3'
 		}
 	])
+
 	const selectedParameter: Ref<Parameter | null> = ref(null)
 
 

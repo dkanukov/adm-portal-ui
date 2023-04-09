@@ -1,4 +1,4 @@
-import {defineComponent, ref} from '#imports'
+import {defineComponent, ref, watch} from '#imports'
 import {ParameterThread} from '#components'
 import {VTextField, VTextarea, VBtn, VSelect, VCheckbox, VDialog, VCard, VToolbar, VToolbarTitle, VSpacer} from 'vuetify/components'
 import {mdiCommentMultipleOutline, mdiClose} from '@mdi/js'
@@ -114,7 +114,7 @@ export default defineComponent({
 						items={parameterTypes}
 						itemTitle={'option'}
 						itemValue={'value'}
-            returnObject
+                        returnObject
 						onUpdate:modelValue={this.handleParameterTypeChange}
 					/>
 					{this.parameterType.value === 'relatedToScheme' && (

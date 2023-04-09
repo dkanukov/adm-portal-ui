@@ -1,6 +1,18 @@
 import {defineComponent} from '#imports'
 import styles from './styles.module.css'
-import {VBtn, VCard, VDialog, VSpacer, VToolbar, VToolbarTitle} from 'vuetify/components'
+import {
+	VBtn,
+	VCard,
+	VDialog,
+	VSpacer,
+	VToolbar,
+	VToolbarTitle,
+	VCardText,
+	VList,
+	VListItem,
+	VListGroup,
+	VListItemTitle,
+} from 'vuetify/components'
 import {mdiClose} from '@mdi/js'
 import {PropType} from 'vue'
 import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
@@ -45,6 +57,14 @@ export default defineComponent({
 							onClick={this.handleCloseThreadButtonClick}
 						/>
 					</VToolbar>
+					<VList>
+						<VListGroup value={'Group'}>
+							<template v-slot:activator='{props}'>
+								<VListItem ref_key={'props'} title={'Open'}/>
+							</template>
+							<VListItem title={'test title'}/>
+						</VListGroup>
+					</VList>
 				</VCard>
 			</VDialog>
 		)

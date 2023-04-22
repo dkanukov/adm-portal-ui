@@ -15,7 +15,8 @@ import {
 } from 'vuetify/components'
 import {mdiClose} from '@mdi/js'
 import {PropType} from 'vue'
-import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
+import {NumParam} from '~/models/num-param'
+import {SampleParam} from '~/models/sample-param'
 
 export default defineComponent({
 	props: {
@@ -28,7 +29,7 @@ export default defineComponent({
 			required: true
 		},
 		selectedParameter: {
-			type: Object as PropType<Parameter>,
+			type: Object as PropType<NumParam | SampleParam>,
 			required: true,
 		},
 	},

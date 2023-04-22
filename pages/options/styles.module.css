@@ -1,4 +1,7 @@
 .parametersPage {
     display: flex;
-    height: calc(100vh - 56px);
+}
+
+.info {
+    max-height: 100vh;
 }

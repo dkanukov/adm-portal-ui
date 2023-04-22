@@ -1,0 +1,13 @@
+.row {
+    margin-top: 22px;
+    display: flex;
+}
+
+.bracketsPicker {
+    max-width: 60px;
+}
+
+.btnRow {
+    display: flex;
+    gap: 20px;
+}

@@ -1,40 +1,44 @@
-import {defineComponent, ref, watch} from '#imports'
+import {defineComponent, ref} from '#imports'
 import {ParameterThread} from '#components'
-import {VTextField, VTextarea, VBtn, VSelect, VCheckbox, VDialog, VCard, VToolbar, VToolbarTitle, VSpacer} from 'vuetify/components'
-import {mdiCommentMultipleOutline, mdiClose} from '@mdi/js'
+import {VBtn, VCheckbox, VSelect, VTextarea, VTextField} from 'vuetify/components'
+import {mdiCommentMultipleOutline} from '@mdi/js'
 import styles from './styles.module.css'
 import {PropType} from 'vue'
-import {Parameter} from '~/components/parametrs-sidebar/parametrs-sidebar'
-import {parameterTypes} from '~/constants/parameter-types'
+import {NumParam} from '~/models/num-param'
+import {SampleParam} from '~/models/sample-param'
+import {ParamKind} from '~/types/param-type'
+
+export const DROPDOWN_ITEMS = [
+	{
+		value: ParamKind.relatedToScheme,
+		label: 'Зависящий от схемы'
+	},
+	{
+		value: ParamKind.reference,
+		label: 'Справочный параметр'
+	}
+]
 
 export default defineComponent({
 	props: {
 		selectedParameter: {
-			type: Object as PropType<Parameter>,
+			type: Object as PropType<SampleParam | NumParam>,
 			required: true,
 		},
 		whenSelectedParameterFieldChange: {
-			type: Function as PropType<(newValue: Parameter) => void>,
+			type: Function as PropType<(newValue: NumParam) => void>,
 			required: true,
 		},
-		parameterType: {
-			type: Object as PropType<{value: string, option: string}>,
-			required: true,
-		},
-		handleParameterTypeChange: {
-			type: Function as PropType<(value: {value: string, option: string}) => void>,
-			required: true,
-		}
 	},
 
 	setup(props) {
 		const parameterName = ref(props.selectedParameter.name)
 		const parameterAbbr = ref(props.selectedParameter.abbreviation)
 		const parameterDescription = ref(props.selectedParameter.description)
-		const isInteger = ref(false)
+		const isInteger = ref(props.selectedParameter instanceof NumParam ? props.selectedParameter.isInteger : false)
 		const isShowThread= ref(false)
 
-		function handleParameterNameInput(value: string) {
+		const handleParameterNameInput = (value: string) => {
 			parameterName.value = value
 			props.whenSelectedParameterFieldChange({
 				...props.selectedParameter,
@@ -42,7 +46,7 @@ export default defineComponent({
 			})
 		}
 
-		function handleParameterAbbrInput(value: string) {
+		const handleParameterAbbrInput = (value: string) => {
 			parameterAbbr.value = value
 			props.whenSelectedParameterFieldChange({
 				...props.selectedParameter,
@@ -50,7 +54,7 @@ export default defineComponent({
 			})
 		}
 
-		function handleParameterDescriptionInput(value: string) {
+		const handleParameterDescriptionInput = (value: string) => {
 			parameterDescription.value = value
 			props.whenSelectedParameterFieldChange({
 				...props.selectedParameter,
@@ -58,17 +62,38 @@ export default defineComponent({
 			})
 		}
 
-		function handleCloseThreadButtonClick() {
+		const handleIntegerStatusToggle = () => {
+			if (!(props.selectedParameter instanceof NumParam)) {
+				return
+			}
+
+			isInteger.value = !isInteger.value
+			props.whenSelectedParameterFieldChange({
+				...props.selectedParameter,
+				isInteger: isInteger.value,
+			})
+		}
+
+		const handleCloseThreadButtonClick = () => {
 			isShowThread.value = false
 		}
 
+		const handleParameterKindChange = (newValue: {label: string, value: ParamKind}) => {
+			props.whenSelectedParameterFieldChange({
+				...props.selectedParameter,
+				kind: newValue.value
+			})
+		}
+
 		return {
+			isShowThread,
+			isInteger,
 			handleParameterNameInput,
 			handleParameterAbbrInput,
 			handleParameterDescriptionInput,
-			isInteger,
-			isShowThread,
 			handleCloseThreadButtonClick,
+			handleIntegerStatusToggle,
+			handleParameterKindChange
 		}
 	},
 
@@ -109,25 +134,23 @@ export default defineComponent({
 				<div class={styles.row}>
 					<VSelect
 						class={styles.selectFixedWidth}
-						modelValue={this.parameterType}
+						modelValue={this.selectedParameter.kind === ParamKind.relatedToScheme ? DROPDOWN_ITEMS[0] : DROPDOWN_ITEMS[1]}
 						variant={'outlined'}
-						items={parameterTypes}
-						itemTitle={'option'}
+						items={DROPDOWN_ITEMS}
+						itemTitle={'label'}
 						itemValue={'value'}
                         returnObject
-						onUpdate:modelValue={this.handleParameterTypeChange}
+						onUpdate:modelValue={this.handleParameterKindChange}
 					/>
-					{this.parameterType.value === 'relatedToScheme' && (
+					{'units' in this.selectedParameter && (
 						<VCheckbox
 							label={'Целочисленный параметр'}
 							color={'success'}
-							modelValue={this.isInteger}
-							/*TODO: deal*/
+							modelValue={this.selectedParameter.isInteger}
 							/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
 							/*@ts-ignore*/
-							onClick={() => this.isInteger = !this.isInteger}
-						/>
-					)}
+							onClick={this.handleIntegerStatusToggle}
+						/>)}
 				</div>
 				<ParameterThread
 					handleCloseThreadButtonClick={this.handleCloseThreadButtonClick}

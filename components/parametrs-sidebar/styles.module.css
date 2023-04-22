@@ -1,15 +1,44 @@
 .aside {
-    max-width: 20%;
+    max-width: 30%;
+    height: calc(100vh - 86px);
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     gap: 10px;
     border-right: 1px solid black;
 }
 
-.deleteBtn:hover .deleteIcon {
-    opacity: 1;
+.selectsRow {
+    display: flex;
+    gap: 20px;
 }
 
-.deleteIcon {
-    opacity: 0;
+.scrollContainer {
+    overflow-y: scroll;
+}
+
+.sidebarSearch {
+    padding-top: 10px;
+    margin-right: 20px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.itemText {
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.activeItem {
+    color: #1867C0;
+}
+
+.addButton {
+    margin-top: 10px;
 }

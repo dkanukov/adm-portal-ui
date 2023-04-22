@@ -1,0 +1,490 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API documentation",
+    "description": "API documentation",
+    "termsOfService": "https://www.google.com/policies/terms/",
+    "contact": {
+      "email": "contact@yourdomain.com"
+    },
+    "license": {
+      "name": "MIT License"
+    },
+    "version": "v1"
+  },
+  "host": "94.103.87.41:8000",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/api",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/create_num_param/": {
+      "post": {
+        "operationId": "create_num_param_create",
+        "description": "Создает новый числовой параметр",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "name",
+                "description",
+                "abbreviation",
+                "kind",
+                "is_integer",
+                "active_range",
+                "param_calculations",
+                "unit_id"
+              ],
+              "type": "object",
+              "properties": {
+                "param_id": {
+                  "description": "Идентификатор параметра(если мы изменяем старый параметр)",
+                  "type": "integer"
+                },
+                "name": {
+                  "description": "Название",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "Описание",
+                  "type": "string"
+                },
+                "abbreviation": {
+                  "description": "Сокращение",
+                  "type": "string"
+                },
+                "kind": {
+                  "description": "Вид",
+                  "type": "string"
+                },
+                "is_integer": {
+                  "description": "Целочисленный ли параметр (true/false)",
+                  "type": "boolean"
+                },
+                "active_range": {
+                  "description": "Диапазон действия ( [0;1000])",
+                  "type": "string"
+                },
+                "param_calculations": {
+                  "description": "Список привязанных соотношений (можно отправить пустой список)",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "calculation_id": {
+                        "description": "ID соотношения",
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "unit_id": {
+                  "description": "ID единицы измерения",
+                  "type": "integer"
+                },
+                "default_multiplier": {
+                  "description": "Множитель по-умолчания",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "create_num_param"
+        ]
+      },
+      "parameters": []
+    },
+    "/create_param_calc/": {
+      "post": {
+        "operationId": "create_param_calc_create",
+        "description": "Создает новое соотношение",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "param_calculation_id": {
+                  "description": "ID",
+                  "type": "integer"
+                },
+                "name": {
+                  "description": "Название",
+                  "type": "string"
+                },
+                "abbreviation": {
+                  "description": "Сокращение",
+                  "type": "string"
+                },
+                "code": {
+                  "description": "Исходный код",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "Описание",
+                  "type": "string"
+                },
+                "active_range": {
+                  "description": "Диапазон действия ( [0;1000])",
+                  "type": "string"
+                },
+                "calc_function_params": {
+                  "description": "Список параметров,необохдимых для расчета",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "param_id": {
+                        "description": "ID параметра",
+                        "type": "integer"
+                      },
+                      "name": {
+                        "description": "Название параметра",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "create_param_calc"
+        ]
+      },
+      "parameters": []
+    },
+    "/create_param_component/": {
+      "post": {
+        "operationId": "create_param_component_create",
+        "description": "Создает новые свойства выборочного параметра",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "param_id": {
+                    "description": "Ссылка на ID выборочного параметра",
+                    "type": "integer"
+                  },
+                  "component_id": {
+                    "description": "ID свойства выборочного параметра(если мы редактируем старое свойство)",
+                    "type": "integer"
+                  },
+                  "name": {
+                    "description": "Название",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "create_param_component"
+        ]
+      },
+      "parameters": []
+    },
+    "/create_sample_param/": {
+      "post": {
+        "operationId": "create_sample_param_create",
+        "description": "Создает новый выборочный параметр",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "param_id": {
+                  "description": "Идентификатор параметра(если мы изменяем старый параметр)",
+                  "type": "integer"
+                },
+                "name": {
+                  "description": "Название",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "Описание",
+                  "type": "string"
+                },
+                "abbreviation": {
+                  "description": "Сокращение",
+                  "type": "string"
+                },
+                "kind": {
+                  "description": "Вид",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "create_sample_param"
+        ]
+      },
+      "parameters": []
+    },
+    "/create_unit/": {
+      "post": {
+        "operationId": "create_unit_create",
+        "description": "Создает новую единицу измерения",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "unit_id": {
+                  "description": "Идентификатор единицы(если мы изменяем старый параметр)",
+                  "type": "integer"
+                },
+                "name": {
+                  "description": "Название",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "Описание",
+                  "type": "string"
+                },
+                "params": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "abbreviation": {
+                        "description": "Название",
+                        "type": "string"
+                      },
+                      "multiplier": {
+                        "description": "множитель",
+                        "type": "string"
+                      },
+                      "action_range": {
+                        "description": "диапазон действия",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "create_unit"
+        ]
+      },
+      "parameters": []
+    },
+    "/get_num_param/": {
+      "get": {
+        "operationId": "get_num_param_list",
+        "summary": "Получение списка параметров",
+        "description": "Этот метод возвращает список параметров.",
+        "parameters": [
+          {
+            "name": "param_id",
+            "in": "query",
+            "description": "Идентификатор параметра",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "get_num_param"
+        ]
+      },
+      "parameters": []
+    },
+    "/get_param_calc/": {
+      "get": {
+        "operationId": "get_param_calc_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "calc_id",
+            "in": "query",
+            "description": "Идентификатор соотношения",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "get_param_calc"
+        ]
+      },
+      "parameters": []
+    },
+    "/get_sample_param/": {
+      "get": {
+        "operationId": "get_sample_param_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "param_id",
+            "in": "query",
+            "description": "ID параметра для получения",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "get_sample_param"
+        ]
+      },
+      "parameters": []
+    },
+    "/get_units/": {
+      "get": {
+        "operationId": "get_units_list",
+        "description": "Получить список единиц измерения",
+        "parameters": [
+          {
+            "name": "unit_id",
+            "in": "query",
+            "description": "Идентификатор единицы измерения",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список единиц измерения",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "unit_id": {
+                    "description": "Идентификатор единицы измерения",
+                    "type": "integer"
+                  },
+                  "name": {
+                    "description": "Название",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Описание",
+                    "type": "string"
+                  },
+                  "params": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "description": "Название",
+                          "type": "string"
+                        },
+                        "multiplier": {
+                          "description": "Множитель",
+                          "type": "string"
+                        },
+                        "action_range": {
+                          "description": "Диапазон действия",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "get_units"
+        ]
+      },
+      "parameters": []
+    }
+  },
+  "definitions": {}
+}

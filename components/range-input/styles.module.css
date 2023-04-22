@@ -1,0 +1,7 @@
+.row {
+    display: flex;
+}
+
+.bracketsPicker {
+    max-width: 60px;
+}

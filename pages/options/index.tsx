@@ -4,8 +4,10 @@ import {parameterStore} from '~/store/parametrs'
 import styles from './styles.module.css'
 
 export default defineComponent({
-	setup() {
+	async setup() {
 		const parameter = parameterStore()
+		await parameter.fetchAllParams()
+
 		return {
 			parameterStore: parameter,
 		}
@@ -13,15 +15,24 @@ export default defineComponent({
 	render() {
 		return (
 			<div class={styles.parametersPage}>
-				<ParametrsSidebar
-					parametersList={this.parameterStore.parametersList}
-					whenSelectParameter={this.parameterStore.whenSelectParameter}
-					selectedParameter={this.parameterStore.selectedParameter}
-				/>
+				{this.parameterStore.allParams &&
+					<ParametrsSidebar
+						parametersList={this.parameterStore.allParams}
+						whenSelectParameter={this.parameterStore.whenSelectParameter}
+						selectedParameter={this.parameterStore.selectedParameter}
+						whenCreateNewNumberParameter={this.parameterStore.whenCreateNewNumberParameter}
+						units={this.parameterStore.units}
+				/>}
 				{this.parameterStore.selectedParameter &&
 					<ParametersInfo
-					selectedParameter={this.parameterStore.selectedParameter}
-					whenSelectedParameterFieldChange={this.parameterStore.whenSelectedParameterFieldChange}
+						class={styles.info}
+						selectedParameter={this.parameterStore.selectedParameter}
+						whenSelectedParameterFieldChange={this.parameterStore.whenSelectedParameterFieldChange}
+						whenNumParameterBracketsChange={this.parameterStore.whenNumParameterBracketsChange}
+						whenNumParameterFirstIntervalChange={this.parameterStore.whenNumParameterFirstIntervalChange}
+						whenNumParameterSecondIntervalChange={this.parameterStore.whenNumParameterSecondIntervalChange}
+						whenNumParamSubmitButtonClick={this.parameterStore.whenNumParamSubmitButtonClick}
+						whenAddNewComponent={this.parameterStore.whenAddNewComponent}
 				/>}
 			</div>
 		)

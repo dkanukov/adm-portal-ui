@@ -45,6 +45,10 @@ export default defineComponent({
 			},  unitId: string) => Promise<boolean>>,
 			required: true
 		},
+		whenCreateNewSampleParameter: {
+			type: Function as PropType<(name: string, description: string, abbreviation: string, kind: string) => Promise<boolean>>,
+			required: true
+		},
 		units: {
 			type: Array as PropType<Unit[]>,
 			required: true
@@ -125,6 +129,14 @@ export default defineComponent({
 			}, 1500)
 		}
 
+		const handleSubmitSampleParam = async () => {
+			isOk.value = await props.whenCreateNewSampleParameter(name.value, description.value, abbreviation.value, kind.value)
+			isShowNotification.value = true
+			setTimeout(() => {
+				isShowNotification.value = false
+			}, 1500)
+		}
+
 		const handleSelectUnitId = (value: string) => {
 			selectedUnitId.value = value
 		}
@@ -142,6 +154,7 @@ export default defineComponent({
 			handleDescriptionChange,
 			handleIntervalBracketsChange,
 			handleSubmitNumParameter,
+			handleSubmitSampleParam,
 			isShowCreateParameterForm,
 			type,
 			actionRange,
@@ -213,7 +226,26 @@ export default defineComponent({
 										units={this.units}
 									/>
 								) : (
-									<SampleParameterForm/>
+									<div class={styles.row}>
+										<VBtn
+											variant={'tonal'}
+											color={'success'}
+											/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+											/*@ts-ignore*/
+											onClick={this.handleSubmitSampleParam}
+										>
+											Сохранить
+										</VBtn>
+										<VBtn
+											variant={'tonal'}
+											color={'error'}
+											/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+											/*@ts-ignore*/
+											onClick={this.handleCloseForm}
+										>
+											Отменить
+										</VBtn>
+									</div>
 								)
 							}
 						</VCardText>

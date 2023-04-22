@@ -21,6 +21,7 @@ export default defineComponent({
 						whenSelectParameter={this.parameterStore.whenSelectParameter}
 						selectedParameter={this.parameterStore.selectedParameter}
 						whenCreateNewNumberParameter={this.parameterStore.whenCreateNewNumberParameter}
+						whenCreateNewSampleParameter={this.parameterStore.whenCreateNewSampleParameter}
 						units={this.parameterStore.units}
 				/>}
 				{this.parameterStore.selectedParameter &&

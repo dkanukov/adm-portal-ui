@@ -42,3 +42,8 @@
 .addButton {
     margin-top: 10px;
 }
+
+.row {
+    display: flex;
+    gap: 20px;
+}

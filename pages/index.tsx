@@ -1,23 +1,32 @@
-import {defineComponent} from '#imports'
-import {UnitsSidebar, UnitsInfo} from '#components'
+import {defineComponent, useApiRequest} from '#imports'
+import {UnitsSidebar, UnitsInfo, UnitsParamUpdateForm} from '#components'
 import {unitsStore} from '~/store/units'
 import styles from './styles.module.css'
+import {Unit} from '~/components/units-sidebar/units-sidebar'
 
 export default defineComponent({
-	setup() {
-		const units = unitsStore()
-		console.log(units.selectedUnit)
+	async setup() {
+		const unitsStoreInstance = unitsStore()
+		const units = await useApiRequest<Unit[]>('/get_units')
+
+		if (units.data.value) {
+			unitsStoreInstance.unitsList = units.data.value
+		}
+
 		return {
-			unitsStore: units,
+			unitsStore: unitsStoreInstance,
 		}
 	},
+
 	render() {
 		return (
-			<div class={styles.parametersPage}>
+			<div class={styles.unitsPage}>
 				<UnitsSidebar/>
 				{this.unitsStore.selectedUnit &&
 					<UnitsInfo/>
 				}
+				<UnitsParamUpdateForm/>
+			
 			</div>
 		)
 	}

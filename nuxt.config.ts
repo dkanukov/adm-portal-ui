@@ -27,4 +27,9 @@ export default defineNuxtConfig({
 		}
 	],
 	ssr: false,
+	runtimeConfig: {
+		public: {
+			baseURL: 'http://94.103.87.41:8000/api'
+		}
+	}
 })

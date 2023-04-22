@@ -28,6 +28,7 @@
     "@mdi/js": "^7.1.96",
     "@pinia/nuxt": "^0.4.7",
     "pinia": "^2.0.33",
+    "typescript": "^5.0.4",
     "typescript-plugin-css-modules": "^4.2.3",
     "vite-plugin-vuetify": "^1.0.2"
   }

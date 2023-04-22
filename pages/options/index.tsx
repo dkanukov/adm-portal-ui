@@ -27,12 +27,15 @@ export default defineComponent({
 					<ParametersInfo
 						class={styles.info}
 						selectedParameter={this.parameterStore.selectedParameter}
+						units={this.parameterStore.units}
+						whenSelectedParameterUnitChange={this.parameterStore.whenSelectedParameterUnitChange}
 						whenSelectedParameterFieldChange={this.parameterStore.whenSelectedParameterFieldChange}
 						whenNumParameterBracketsChange={this.parameterStore.whenNumParameterBracketsChange}
 						whenNumParameterFirstIntervalChange={this.parameterStore.whenNumParameterFirstIntervalChange}
 						whenNumParameterSecondIntervalChange={this.parameterStore.whenNumParameterSecondIntervalChange}
 						whenNumParamSubmitButtonClick={this.parameterStore.whenNumParamSubmitButtonClick}
 						whenAddNewComponent={this.parameterStore.whenAddNewComponent}
+						whenSelectedParameterDefaultMultiplierChange={this.parameterStore.whenSelectedParameterDefaultMultiplierChange}
 				/>}
 			</div>
 		)

@@ -13,7 +13,6 @@ export default defineComponent({
     async function onClickCreateNewUnitParam () {
       isLoading.value = true
       const unit = await units.addNewParamToExistingUnit()
-      console.log('onClickCreateNewUnitParam', unit)
       isLoading.value = false
     }
 

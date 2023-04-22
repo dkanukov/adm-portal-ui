@@ -35,7 +35,6 @@ export default defineComponent({
 		const { unitsList } = storeToRefs(units)
 		const filtredUnitsList = ref(unitsList.value)
 		function handleUnitSelect(selectedItemId: number) {
-			console.log(selectedItemId)
 			units.whenSelectUnit(selectedItemId)
 		}
 

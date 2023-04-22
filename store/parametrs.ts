@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import { ref, useFetch} from '#imports'
+import {ref, useFetch} from '#imports'
 import {api} from '~/constants/api'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
@@ -7,7 +7,7 @@ import {Unit} from '~/models/unit'
 import {Component} from '~/models/component'
 import {Ref} from 'vue'
 
-export const parameterStore = defineStore('parameterStore', () =>{
+export const parameterStore = defineStore('parameterStore', () => {
 	const selectedParameter: Ref<NumParam | SampleParam | null> = ref(null)
 	const numParams: Ref<NumParam[] | null> = ref(null)
 	const sampleParams: Ref<SampleParam[] | null> = ref(null)
@@ -27,7 +27,6 @@ export const parameterStore = defineStore('parameterStore', () =>{
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		units.value = data.value.map((unit) => new Unit(unit))
-		console.log(data)
 	}
 
 	const fetchSampleParams = async () => {
@@ -52,8 +51,24 @@ export const parameterStore = defineStore('parameterStore', () =>{
 		}
 	}
 
-	const whenSelectParameter = (parameterId: number) =>  {
+	const whenSelectParameter = (parameterId: number) => {
 		selectedParameter.value = paramById.value[parameterId]
+	}
+
+	const whenSelectedParameterUnitChange = (unitId: number) => {
+		const selectedUnit = units.value.find((unit) => unit.unitId === unitId)
+		if (!selectedParameter.value || !('units' in selectedParameter.value) || !selectedUnit) {
+			return
+		}
+		selectedParameter.value.units = selectedUnit
+	}
+
+	const whenSelectedParameterDefaultMultiplierChange = (multiplier: number) => {
+		if (!selectedParameter.value || !('units' in selectedParameter.value)) {
+			return
+		}
+
+		selectedParameter.value.defaultMultiplier = multiplier
 	}
 
 	const whenSelectedParameterFieldChange = (newValue: NumParam | SampleParam) => {
@@ -81,19 +96,35 @@ export const parameterStore = defineStore('parameterStore', () =>{
 		}
 
 		switch (newValue) {
-			case '(': selectedParameter.value.actionRange.backIncluded = false; break
-			case ')': selectedParameter.value.actionRange.frontIncluded = false; break
-			case '[': selectedParameter.value.actionRange.backIncluded = true; break
-			case ']': selectedParameter.value.actionRange.frontIncluded = true; break
+			case '(':
+				selectedParameter.value.actionRange.backIncluded = false
+				break
+			case ')':
+				selectedParameter.value.actionRange.frontIncluded = false
+				break
+			case '[':
+				selectedParameter.value.actionRange.backIncluded = true
+				break
+			case ']':
+				selectedParameter.value.actionRange.frontIncluded = true
+				break
 		}
 
 		const paramToUpdate = allParams.value.find((param) => param.paramId === selectedParameter.value?.paramId) as NumParam
 		if (paramToUpdate && ('units' in selectedParameter.value)) {
 			switch (newValue) {
-				case '(': selectedParameter.value.actionRange.backIncluded = false; break
-				case ')': selectedParameter.value.actionRange.frontIncluded = false; break
-				case '[': selectedParameter.value.actionRange.backIncluded = true; break
-				case ']': selectedParameter.value.actionRange.frontIncluded = true; break
+				case '(':
+					selectedParameter.value.actionRange.backIncluded = false
+					break
+				case ')':
+					selectedParameter.value.actionRange.frontIncluded = false
+					break
+				case '[':
+					selectedParameter.value.actionRange.backIncluded = true
+					break
+				case ']':
+					selectedParameter.value.actionRange.frontIncluded = true
+					break
 			}
 		}
 	}
@@ -193,7 +224,6 @@ export const parameterStore = defineStore('parameterStore', () =>{
 				default_multiplier: 1
 			}
 		})
-		console.log(error)
 		return !error
 
 	}
@@ -211,6 +241,8 @@ export const parameterStore = defineStore('parameterStore', () =>{
 		whenNumParameterSecondIntervalChange,
 		whenNumParamSubmitButtonClick,
 		whenCreateNewNumberParameter,
+		whenSelectedParameterUnitChange,
+		whenSelectedParameterDefaultMultiplierChange,
 		whenAddNewComponent,
 		fetchNumParams,
 		fetchSampleParams,

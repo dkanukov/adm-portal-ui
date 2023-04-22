@@ -42,7 +42,7 @@ export default defineComponent({
 		return {
 			unitName,
 			unitDescription,
-			
+
 			handleUnitNameInput,
 			handleUnitAbbrInput,
 			onClickUpdateUnit,
@@ -59,7 +59,6 @@ export default defineComponent({
 							icon={mdiCommentMultipleOutline}
 							variant={'text'}
 							color={'#616161'}
-							/*TODO: deal*/
 							/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
 							/* @ts-ignore */
 							onClick={() => console.log('open chat')}

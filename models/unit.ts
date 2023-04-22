@@ -2,7 +2,7 @@ export class Unit {
 	unitId!: number
 	name!: string
 	params!: {
-		multiplier: string;
+		multiplier: number;
 		abbreviation: string;
 		actionRange: {
 			backIncluded: boolean

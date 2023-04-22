@@ -1,0 +1,15 @@
+.createFormBox {
+  width: 100%;
+  padding: 32px;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.createFormBox h3 {
+  margin-bottom: 18px;
+}
+
+.createFormBox__Actions {
+  gap: 20px;
+  display: flex;
+}

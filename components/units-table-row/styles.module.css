@@ -1,0 +1,18 @@
+.rowCell {
+  cursor: pointer;
+}
+
+.row {
+  transition: background-color .2s ease;
+}
+.row:hover {
+  background-color: #ddd;
+}
+
+.lastCell {
+  text-align: right;
+}
+
+.checkButton {
+  margin-right: 12px;
+}

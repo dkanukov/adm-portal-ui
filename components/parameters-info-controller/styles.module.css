@@ -2,6 +2,7 @@
     display: flex;
     gap: 20px;
     max-width: 100%;
+    margin-bottom: 10px;
 }
 
 .inputFixedHeight {
@@ -10,4 +11,8 @@
 
 .selectFixedWidth {
     max-width: 280px;
+}
+
+.description {
+
 }

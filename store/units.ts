@@ -118,8 +118,6 @@ export const unitsStore = defineStore('unitsStore', () =>{
 	}
 
 	async function updateSelectedUnitParam (index: number, updatedValue: UnitParam): Promise<Unit|null> {
-		console.log(index, updatedValue)
-
 		if (typeof index !== 'number' || !selectedUnit.value || !updatedValue) { return null }
 		const payload = { ...selectedUnit.value }
 		payload.params[index] = updatedValue

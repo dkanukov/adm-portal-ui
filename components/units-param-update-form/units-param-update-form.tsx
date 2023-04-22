@@ -40,12 +40,11 @@ export default defineComponent({
 		}
 
 		function handleStartIntervalBracketsChange(value: any){
-			actionRange.value.frontIncluded = value === '[' ? true : false
+			actionRange.value.frontIncluded = value === '['
 		}
 
 		function handleEndIntervalBracketsChange(value: any){
-			console.log(value)
-			actionRange.value.backIncluded = value === ']' ? true : false
+			actionRange.value.backIncluded = value === ']'
 		}
 
 		function handleNumParameterFirstIntervalChange(value: string){

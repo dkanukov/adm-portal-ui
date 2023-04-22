@@ -6,7 +6,6 @@ import styles from './styles.module.css'
 export default defineComponent({
 	setup() {
 		const units = unitsStore()
-		console.log(units.selectedUnit)
 		return {
 			unitsStore: units,
 		}

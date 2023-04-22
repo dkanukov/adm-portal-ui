@@ -1,8 +1,7 @@
-import {computed, defineComponent, ref, PropType} from '#imports'
+import {computed, defineComponent, ref} from '#imports'
+import {PropType} from 'vue'
 import {
 	ParametersInfoController,
-	ParameterUnitsTable,
-	RangeInput,
 	ParametersNumparam, ParametersSampleParam,
 } from '#components'
 import styles from './styles.module.css'

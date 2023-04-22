@@ -1,4 +1,5 @@
-import {defineComponent, ref, PropType} from '#imports'
+import {defineComponent, ref} from '#imports'
+import {PropType} from 'vue'
 import {VTable, VAutocomplete, VBtn} from 'vuetify/components'
 import {NumParam} from '~/models/num-param'
 import styles from './styles.module.css'

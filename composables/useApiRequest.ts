@@ -1,4 +1,4 @@
-import { useFetch, useRuntimeConfig } from "nuxt/app"
+import { useFetch, useRuntimeConfig } from 'nuxt/app'
 
 export const useApiRequest: typeof useFetch = (request, opts?) => {
   const config = useRuntimeConfig()

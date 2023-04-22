@@ -1,4 +1,5 @@
-import {defineComponent, PropType, ref} from '#imports'
+import {defineComponent, ref} from '#imports'
+import {PropType} from 'vue'
 import {
 	VAutocomplete,
 	VBtn,

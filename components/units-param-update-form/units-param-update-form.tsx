@@ -26,7 +26,7 @@ export default defineComponent({
 		})
 
 		function handleDialogOpenStateChange(value: any){
-			if (!value || value.type === "click"){
+			if (!value || value.type === 'click'){
 				router.push({query:{update_unit_param: undefined}})
 			}
 		}
@@ -131,8 +131,22 @@ export default defineComponent({
 
 
 						<div class={styles.createFormBox__Actions}>
-							<VBtn onClick={this.handleDialogOpenStateChange}>Отмена</VBtn>
-							<VBtn color={'primary'} loading={this.loading} onClick={this.onConfirmUnitParamUpdate}>Создать</VBtn>
+							<VBtn
+								/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+								/*@ts-ignore*/
+								onClick={this.handleDialogOpenStateChange}
+							>
+								Отмена
+							</VBtn>
+							<VBtn
+								color={'primary'}
+								loading={this.loading}
+								/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+								/*@ts-ignore*/
+								onClick={this.onConfirmUnitParamUpdate}
+							>
+								Создать
+							</VBtn>
 						</div>
 					</div>
 				</VDialog>

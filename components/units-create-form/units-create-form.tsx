@@ -79,8 +79,22 @@ export default defineComponent({
 						/>
 
 						<div class={styles.createFormBox__Actions}>
-							<VBtn onClick={this.handleDialogOpenStateChange}>Отмена</VBtn>
-							<VBtn color={'primary'} loading={this.loading} onClick={this.onConfirmCreateUnit}>Создать</VBtn>
+
+							<VBtn
+								/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+								/*@ts-ignore*/
+								onClick={this.handleDialogOpenStateChange}
+							>
+								Отмена</VBtn>
+							<VBtn
+								color={'primary'}
+								loading={this.loading}
+								/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+								/*@ts-ignore*/
+								onClick={this.onConfirmCreateUnit}
+							>
+								Создать
+							</VBtn>
 						</div>
 					</div>
 				</VDialog>

@@ -1,4 +1,4 @@
-import {defineComponent, ref, Ref} from '#imports'
+import {defineComponent, ref} from '#imports'
 import {VTextarea, VSelect, VTextField, VBtn, VAutocomplete} from 'vuetify/components'
 import {Prop, PropType} from 'vue'
 import styles from './styles.module.css'

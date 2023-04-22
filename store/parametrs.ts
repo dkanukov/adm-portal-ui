@@ -1,10 +1,11 @@
 import {defineStore} from 'pinia'
-import {Ref, ref, useFetch} from '#imports'
+import { ref, useFetch} from '#imports'
 import {api} from '~/constants/api'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {Unit} from '~/models/unit'
 import {Component} from '~/models/component'
+import {Ref} from 'vue'
 
 export const parameterStore = defineStore('parameterStore', () =>{
 	const selectedParameter: Ref<NumParam | SampleParam | null> = ref(null)

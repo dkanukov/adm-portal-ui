@@ -1,4 +1,5 @@
-import {defineComponent, ref, Ref} from '#imports'
+import {defineComponent, ref} from '#imports'
+import {Ref} from 'vue'
 
 export default defineComponent({
 	render() {

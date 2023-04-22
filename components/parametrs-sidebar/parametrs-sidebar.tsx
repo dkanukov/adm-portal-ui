@@ -1,22 +1,22 @@
 import {defineComponent, ref} from '#imports'
-import {PropType} from 'vue'
+import {PropType, Ref} from 'vue'
 import {
 	VAutocomplete,
 	VBtn,
 	VCard,
-	VCardActions,
 	VCardText,
 	VCardTitle,
 	VDialog,
-	VSelect, VTextarea,
+	VSelect,
+	VTextarea,
 	VTextField
 } from 'vuetify/components'
+import {Notification} from '#components'
 import styles from './styles.module.css'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {mdiPlus} from '@mdi/js'
 import {DROPDOWN_ITEMS} from '~/components/parameters-info-controller/parameters-info-controller'
-import {Ref} from 'vue'
 import {PARAM_KIND_READABLE, ParamKind, ParamType} from '~/types/param-type'
 import NumberParameterForm from '~/components/number-parameter-form/number-parameter-form'
 import SampleParameterForm from '~/components/sample-parameter-form/sample-parameter-form'
@@ -53,7 +53,6 @@ export default defineComponent({
 
 	setup(props) {
 		const isShowCreateParameterForm = ref(false)
-		// const newParameter: Ref<NumParam | SampleParam | null> = ref(null)
 		const type: Ref<ParamType> = ref(ParamType.numParam)
 		const kind: Ref<ParamKind> = ref(ParamKind.reference)
 		const name = ref('')
@@ -66,6 +65,8 @@ export default defineComponent({
 			frontIncluded: false,
 		})
 		const selectedUnitId = ref('')
+		const isOk = ref(false)
+		const isShowNotification = ref(false)
 
 		const handleIntervalBracketsChange = (newValue: string) => {
 			switch (newValue) {
@@ -117,7 +118,11 @@ export default defineComponent({
 		}
 
 		const handleSubmitNumParameter = async () => {
-			const isOk = await props.whenCreateNewNumberParameter(name.value, description.value, abbreviation.value, kind.value, false, actionRange.value, selectedUnitId.value)
+			isOk.value = await props.whenCreateNewNumberParameter(name.value, description.value, abbreviation.value, kind.value, false, actionRange.value, selectedUnitId.value)
+			isShowNotification.value = true
+			setTimeout(() => {
+				isShowNotification.value = false
+			}, 1500)
 		}
 
 		const handleSelectUnitId = (value: string) => {
@@ -141,13 +146,19 @@ export default defineComponent({
 			type,
 			actionRange,
 			selectedUnitId,
-			handleSelectUnitId
+			handleSelectUnitId,
+			isOk,
+			isShowNotification,
 		}
 	},
 
 	render() {
 		return (
 			<div class={styles.aside}>
+				<Notification
+					isOk={this.isOk}
+					isShowNotification={this.isShowNotification}
+				/>
 				<VDialog
 					modelValue={this.isShowCreateParameterForm}
 					onUpdate:modelValue={this.handleCloseForm}

@@ -1,5 +1,5 @@
 import {defineComponent, ref, computed} from '#imports'
-import {ParameterUnitsTable, RangeInput} from '#components'
+import {ParameterUnitsTable, RangeInput, Notification} from '#components'
 import {NumParam} from '~/models/num-param'
 import {VBtn, VAlert} from 'vuetify/components'
 import styles from '~/components/parameters-info/styles.module.css'
@@ -67,17 +67,9 @@ export default defineComponent({
 	render() {
 		return (
 			<div>
-				{/*TODO: вынести в компонент*/}
-				<VAlert
-					position={'fixed'}
-					title={this.isOk ? 'Данные сохранены' : 'Произошла ошибка'}
-					type={this.isOk ? 'success' : 'error'}
-					modelValue={this.isShowNotification}
-					density={'compact'}
-					style={{
-						top: '20px',
-						right: '20px',
-					}}
+				<Notification
+					isOk={this.isOk}
+					isShowNotification={this.isShowNotification}
 				/>
 				<RangeInput
 					selectedParameter={this.selectedParameter as NumParam}

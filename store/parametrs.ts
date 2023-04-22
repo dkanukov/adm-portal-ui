@@ -224,8 +224,8 @@ export const parameterStore = defineStore('parameterStore', () => {
 				default_multiplier: 1
 			}
 		})
-		return !error
-
+		console.log(error.value)
+		return !error.value
 	}
 
 	return {

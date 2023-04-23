@@ -6,6 +6,7 @@ import {unitsStore} from '~/store/units'
 import { UnitParam } from '../units-sidebar/units-sidebar'
 import styles from './styles.module.css'
 import {PropType} from 'vue'
+import {useToast} from 'vue-toast-notification'
 
 export default defineComponent({
   props: {
@@ -24,6 +25,7 @@ export default defineComponent({
   },
 
 	setup(props) {
+    const toast = useToast()
     const router = useRouter()
     const units = unitsStore()
     const loading = ref(false)
@@ -39,6 +41,19 @@ export default defineComponent({
     const paramActionRangeUpperLimit = ref<string>(item.value.action_range.upper_limit)
 
     async function onClickDeleteUnitParam () {
+      const unit = units.unitsList.find((u) => {
+        return u.unit_id === unitId.value
+      })
+
+      if (!unit) {
+        return
+      }
+
+      if (unit.params.length === 1) {
+        toast.error('Вы не можете удалить последний параметр')
+        return
+      }
+
       loading.value = true
       await units.removeSelectedUnitParam(index.value)
       loading.value = false
@@ -87,7 +102,9 @@ export default defineComponent({
         <td
           class={styles.rowCell}
         >
-          {`[${this.item.action_range.lower_limit}:${this.item.action_range.upper_limit}]`}
+          {this.item.action_range.front_included ? '[' : '('}
+          {`${this.item.action_range.lower_limit}:${this.item.action_range.upper_limit}`}
+          {this.item.action_range.back_included ? ']' : ')'}
         </td>
 
         <td class={styles.lastCell}>

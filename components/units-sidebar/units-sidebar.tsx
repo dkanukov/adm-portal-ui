@@ -1,9 +1,10 @@
 import {defineComponent, ref} from '#imports'
-import {VTextField} from 'vuetify/components'
+import {VBtn, VIcon, VTextField} from 'vuetify/components'
 import {unitsStore} from '~/store/units'
 import { UnitsCreateForm } from '#components'
 import styles from './styles.module.css'
 import {storeToRefs} from 'pinia'
+import {mdiDelete} from '@mdi/js'
 
 export interface ActionRange {
 	back_included: boolean
@@ -57,6 +58,11 @@ export default defineComponent({
 			)
 		}
 
+		async function onClickDeleteUnit (unitId:number) {
+			await units.deleteUnit(unitId)
+			filtredUnitsList.value = units.unitsList
+		}
+
 		return {
 			unitsList,
 			filtredUnitsList,
@@ -64,6 +70,7 @@ export default defineComponent({
 			handleUnitDelete,
 			handleUnitInputSearch,
 			unitSearch,
+			onClickDeleteUnit,
 			newUnitButtonLoading,
 			selectedUnit: units.selectedUnit
 		}
@@ -99,6 +106,20 @@ export default defineComponent({
 									onClick={() => this.handleUnitSelect(item.unit_id)}
 								>
 									{item.name}
+									<VIcon
+										class={styles.deleteIcon}
+										icon={mdiDelete}
+										size={'x-small'}
+										color={'red'}
+										data-unit-id={item.unit_id}
+										/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+										/*@ts-ignore*/
+										onClick={(event: MouseEvent) => {
+											event.stopPropagation()
+											event.preventDefault()
+											this.onClickDeleteUnit(item.unit_id)
+										}}
+									/>
 								</div>
 							</div>
 						))

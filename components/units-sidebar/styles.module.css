@@ -33,10 +33,24 @@
 }
 
 .itemText {
+    width: 100%;
+    display: flex;
+    padding-right: 16px;
+    align-items: center;
     cursor: pointer;
+    justify-content: space-between;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.deleteIcon {
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+
+.itemText:hover .deleteIcon {
+    opacity: 1;
 }
 
 .activeItem {

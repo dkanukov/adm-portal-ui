@@ -17,27 +17,20 @@ export const unitsStore = defineStore('unitsStore', () =>{
 		}
 	}
 
-	function whenSelectedUnitFieldChange(newValue: Unit) {
-		if (!selectedUnit.value) {
-			return
-		}
-		selectedUnit.value = {...newValue}
-
-		const unitToUpdate = unitsList.value.find((unit) => unit.unit_id === newValue.unit_id)
-		if (unitToUpdate) {
-			unitToUpdate.name = newValue.name
-			unitToUpdate.description = newValue.description
-		}
-	}
-
 	async function getUnits (): Promise<Unit[]> {
 		const response = await useFetch<Unit[]>(`${api}/get_units/`)
-		console.log(response)
 		if (!response || !response.data || !response.data.value) {
 			return []
 		}
 
 		unitsList.value = response.data.value
+
+		if (selectedUnit.value) {
+			const updatedSelectedUnit = unitsList.value.find((u) => {
+				return u.unit_id === selectedUnit.value?.unit_id
+			})
+			selectedUnit.value = updatedSelectedUnit || null
+		}
 
 		return response.data.value
 	}
@@ -46,8 +39,8 @@ export const unitsStore = defineStore('unitsStore', () =>{
 		const response = await useApiRequest<any>('/delete_unit/?unit_id=' + unitId, {
 			method: 'DELETE',
 		})
-			await getUnits()
-			return response
+		await getUnits()
+		return response
 	}
 
 	async function createNewUnit (payload: { name: string, description: string }): Promise<any> {
@@ -138,7 +131,6 @@ export const unitsStore = defineStore('unitsStore', () =>{
 		updateExistingUnit,
 		removeSelectedUnitParam,
 		updateSelectedUnitParam,
-		addNewParamToExistingUnit,
-		whenSelectedUnitFieldChange
+		addNewParamToExistingUnit
 	}
 })

@@ -1,7 +1,7 @@
 import {defineNuxtConfig} from 'nuxt/config'
 import vuetify from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
-	css: ['vuetify/lib/styles/main.sass', '~/layouts/global.css'],
+	css: ['vuetify/lib/styles/main.sass', '~/layouts/global.css', 'vue-toast-notification/dist/theme-default.css'],
 	build: {
 		transpile: ['vuetify'],
 	},

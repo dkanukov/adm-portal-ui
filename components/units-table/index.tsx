@@ -1,4 +1,4 @@
-import {defineComponent, ref} from '#imports'
+import {defineComponent, ref, useRouter} from '#imports'
 import {storeToRefs} from 'pinia'
 import {VTable, VBtn} from 'vuetify/components'
 import {unitsStore} from '~/store/units'
@@ -8,12 +8,12 @@ export default defineComponent({
 	setup () {
     const isLoading = ref(false)
     const units = unitsStore()
+    const router = useRouter()
+
     const { selectedUnit } = storeToRefs(units)
 
     async function onClickCreateNewUnitParam () {
-      isLoading.value = true
-      const unit = await units.addNewParamToExistingUnit()
-      isLoading.value = false
+      router.push({ query: { update_unit_param: selectedUnit.value?.unit_id } })
     }
 
     return {

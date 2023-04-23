@@ -1,23 +1,25 @@
 import {defineComponent, ref, toRefs, useRoute, useRouter} from '#imports'
+import {useToast} from 'vue-toast-notification'
 import {VBtn, VDialog, VTextField, VSelect} from 'vuetify/components'
 import {unitsStore} from '~/store/units'
+import {UnitParam} from '../units-sidebar/units-sidebar'
 import styles from './styles.module.css'
-import { storeToRefs } from 'pinia'
-import { Unit } from '~~/models/unit'
-import { UnitParam } from '../units-sidebar/units-sidebar'
-
 
 export default defineComponent({
 	setup(){
 		const units = unitsStore()
 		const router = useRouter()
 		const route = useRoute()
+		const toast = useToast()
 		const {
 			query
 		} = toRefs(route)
 		const loading = ref(false)
 		const unitParamName = ref('')
-		const unitParamMultiplier = ref(0)
+		const unitParamMultiplier = ref('')
+
+		const isUpdateForm = ref<boolean>(false)
+
 		const actionRange = ref({
 			frontIncluded: true,
 			backIncluded: true,
@@ -29,16 +31,6 @@ export default defineComponent({
 		function handleDialogOpenStateChange(value: any){
 			if (!value || value.type === 'click'){
 				router.push({query:{update_unit_param: undefined}})
-			} else {
-				const unitParamQuery:any=query.value.update_unit_param
-				console.log("handleDialogOpen", unitParamQuery)
-				const unitId = unitParamQuery.split("-")[0]
-				const paramIndex = parseInt(unitParamQuery.split("-")[1])
-				const currentUnit = units.unitsList.find((unit)=>{
-					return unit.unit_id === parseInt(unitId)
-				})
-				const currentUnitParametr = currentUnit ? currentUnit.params[paramIndex] : undefined
-				unitParamName.value = currentUnitParametr ? currentUnitParametr.abbreviation : ''
 			}
 		}
 
@@ -66,8 +58,54 @@ export default defineComponent({
 			actionRange.value.upperLimit = value
 		}
 
-		function onConfirmUnitParamUpdate(){
-			console.log('Update')
+		async function onConfirmUnitParamUpdate(){
+			const unitParamQuery:any = query.value.update_unit_param
+			const unitId = unitParamQuery.split("-")[0]
+			const existingUnit = units.unitsList.find((u) => {
+				return u.unit_id === parseInt(unitId)
+			})
+
+			if (existingUnit) {
+				const paramIndex = parseInt(unitParamQuery.split("-")[1])
+
+				const paramMultiplierAlreadyExists = existingUnit.params.find((p, index) => {
+					return (
+						index !== paramIndex &&
+						parseFloat(p.multiplier) === parseFloat(unitParamMultiplier.value)
+					)
+				})
+
+				if (paramMultiplierAlreadyExists) {
+					toast.error('Множитель должен быть уникальным')
+					return
+				}
+
+				const param: UnitParam = {
+					abbreviation: unitParamName.value,
+					multiplier: unitParamMultiplier.value,
+					action_range: {
+						lower_limit: actionRange.value.lowerLimit,
+						upper_limit: actionRange.value.upperLimit,
+						back_included: actionRange.value.backIncluded,
+						front_included: actionRange.value.frontIncluded,
+					}
+				}
+
+				console.log(paramIndex)
+				if (paramIndex !== undefined && !isNaN(paramIndex)) {
+					// UPDATE EXISTING PARAM
+					existingUnit.params[paramIndex] = param
+				} else {
+					// CREATE NEW PARAM
+					existingUnit.params.push(param)
+				}
+
+				loading.value = true
+				await units.updateExistingUnit(existingUnit)
+				await units.getUnits()
+				loading.value = false
+				router.push({ query: { update_unit_param: undefined } })
+			}
 		}
 
 
@@ -75,6 +113,7 @@ export default defineComponent({
 			loading,
 			query,
 			actionRange,
+			isUpdateForm,
 			unitParamName,
 			unitParamMultiplier,
 			handleDialogOpenStateChange,
@@ -88,6 +127,30 @@ export default defineComponent({
 		}
 	},
 
+	watch: {
+		query (newValue) {
+			const units = unitsStore()
+			if (newValue.update_unit_param) {
+				const unitParamQuery: any = this.query.update_unit_param
+				const unitId = unitParamQuery.split("-")[0]
+				const paramIndex = parseInt(unitParamQuery.split("-")[1])
+
+				const currentUnit = units.unitsList.find((unit)=>{
+					return unit.unit_id === parseInt(unitId)
+				})
+				const currentUnitParametr = currentUnit ? currentUnit.params[paramIndex] : undefined
+
+				this.isUpdateForm = unitParamQuery.split('-')[1] ? true : false
+				this.unitParamName = currentUnitParametr ? currentUnitParametr.abbreviation : ''
+				this.unitParamMultiplier = currentUnitParametr ? currentUnitParametr.multiplier : '1'
+				this.actionRange.backIncluded = currentUnitParametr ? currentUnitParametr.action_range.back_included : true
+				this.actionRange.frontIncluded = currentUnitParametr ? currentUnitParametr.action_range.front_included : true
+				this.actionRange.lowerLimit = currentUnitParametr ? currentUnitParametr.action_range.lower_limit : '0'
+				this.actionRange.upperLimit = currentUnitParametr ? currentUnitParametr.action_range.upper_limit : '1000'
+			}
+		} 
+	},
+
 	render() {
 		return (
 			<div class={styles.createForm}>
@@ -97,7 +160,7 @@ export default defineComponent({
 					onUpdate:modelValue={this.handleDialogOpenStateChange}
 				>
 					<div class={styles.createFormBox}>
-						<h3>Изменить параметр единицы измерения</h3>
+						<h3>{this.isUpdateForm ? 'Изменить параметр единицы измерения' : 'Добавить параметр единицы измерения'}</h3>
 						<VTextField
 							label='Параметр единицы измерения'
 							modelValue={this.unitParamName}
@@ -108,7 +171,6 @@ export default defineComponent({
 							label='Множитель единицы измерения'
 							modelValue={this.unitParamMultiplier}
 							onUpdate:modelValue={this.unitParamMultiplierUpdateHandler}
-							type="number"
 						/>
 
 						<div class={styles.row}>

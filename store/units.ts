@@ -1,7 +1,9 @@
+import { useFetch } from '#imports'
 import {defineStore} from 'pinia'
 import {Ref, ref, computed, unref, isReactive} from 'vue'
 import {Unit, UnitParam} from '~/components/units-sidebar/units-sidebar'
 import {useApiRequest} from '~/composables/useApiRequest'
+import { api } from '~~/constants/api'
 
 export const unitsStore = defineStore('unitsStore', () =>{
 	const unitsList: Ref<Unit[]> = ref([])
@@ -29,7 +31,8 @@ export const unitsStore = defineStore('unitsStore', () =>{
 	}
 
 	async function getUnits (): Promise<Unit[]> {
-		const response = await useApiRequest<Unit[]>('/get_units')
+		const response = await useFetch<Unit[]>(`${api}/get_units/`)
+		console.log(response)
 		if (!response || !response.data || !response.data.value) {
 			return []
 		}
@@ -128,6 +131,7 @@ export const unitsStore = defineStore('unitsStore', () =>{
 	return {
 		unitsList,
 		selectedUnit,
+		getUnits,
 		deleteUnit,
 		createNewUnit,
 		whenSelectUnit,

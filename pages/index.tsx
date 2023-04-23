@@ -7,11 +7,7 @@ import {Unit} from '~/components/units-sidebar/units-sidebar'
 export default defineComponent({
 	async setup() {
 		const unitsStoreInstance = unitsStore()
-		const units = await useApiRequest<Unit[]>('/get_units')
-
-		if (units.data.value) {
-			unitsStoreInstance.unitsList = units.data.value
-		}
+		await unitsStoreInstance.getUnits()
 
 		return {
 			unitsStore: unitsStoreInstance,

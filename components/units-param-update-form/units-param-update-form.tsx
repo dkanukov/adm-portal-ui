@@ -3,6 +3,8 @@ import {VBtn, VDialog, VTextField, VSelect} from 'vuetify/components'
 import {unitsStore} from '~/store/units'
 import styles from './styles.module.css'
 import { storeToRefs } from 'pinia'
+import { Unit } from '~~/models/unit'
+import { UnitParam } from '../units-sidebar/units-sidebar'
 
 
 export default defineComponent({
@@ -14,7 +16,6 @@ export default defineComponent({
 			query
 		} = toRefs(route)
 		const loading = ref(false)
-
 		const unitParamName = ref('')
 		const unitParamMultiplier = ref(0)
 		const actionRange = ref({
@@ -28,6 +29,16 @@ export default defineComponent({
 		function handleDialogOpenStateChange(value: any){
 			if (!value || value.type === 'click'){
 				router.push({query:{update_unit_param: undefined}})
+			} else {
+				const unitParamQuery:any=query.value.update_unit_param
+				console.log("handleDialogOpen", unitParamQuery)
+				const unitId = unitParamQuery.split("-")[0]
+				const paramIndex = parseInt(unitParamQuery.split("-")[1])
+				const currentUnit = units.unitsList.find((unit)=>{
+					return unit.unit_id === parseInt(unitId)
+				})
+				const currentUnitParametr = currentUnit ? currentUnit.params[paramIndex] : undefined
+				unitParamName.value = currentUnitParametr ? currentUnitParametr.abbreviation : ''
 			}
 		}
 

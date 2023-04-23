@@ -45,7 +45,7 @@ export default defineComponent({
     }
 
     function onClickUpdateUnitParam () {
-      router.push({query:{update_unit_param: unitId.value}})
+      router.push({query:{update_unit_param: unitId.value + "-" + index.value}})
     }
 
     return {

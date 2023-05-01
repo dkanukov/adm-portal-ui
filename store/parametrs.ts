@@ -221,11 +221,23 @@ export const parameterStore = defineStore('parameterStore', () => {
 				},
 				param_calculations: [],
 				unit_id: Number(unitId),
-				default_multiplier: 1
+				// default_multiplier: 1
 			}
 		})
-		return !error
+		return !error.value
+	}
 
+	const whenCreateNewSampleParameter = async (name: string, description: string, abbreviation: string, kind: string,) => {
+		const {error} = await useFetch(`${api}/create_sample_param/`, {
+			method: 'POST',
+			body: {
+				name,
+				description,
+				abbreviation,
+				kind,
+			}
+		})
+		return !error.value
 	}
 
 	return {
@@ -244,6 +256,7 @@ export const parameterStore = defineStore('parameterStore', () => {
 		whenSelectedParameterUnitChange,
 		whenSelectedParameterDefaultMultiplierChange,
 		whenAddNewComponent,
+		whenCreateNewSampleParameter,
 		fetchNumParams,
 		fetchSampleParams,
 		fetchAllParams,

@@ -1,25 +1,24 @@
 import {defineComponent, ref} from '#imports'
-import {PropType} from 'vue'
+import {PropType, Ref} from 'vue'
 import {
 	VAutocomplete,
 	VBtn,
 	VCard,
-	VCardActions,
 	VCardText,
 	VCardTitle,
 	VDialog,
-	VSelect, VTextarea,
+	VSelect,
+	VTextarea,
 	VTextField
 } from 'vuetify/components'
+import {Notification} from '#components'
 import styles from './styles.module.css'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {mdiPlus} from '@mdi/js'
 import {DROPDOWN_ITEMS} from '~/components/parameters-info-controller/parameters-info-controller'
-import {Ref} from 'vue'
 import {PARAM_KIND_READABLE, ParamKind, ParamType} from '~/types/param-type'
 import NumberParameterForm from '~/components/number-parameter-form/number-parameter-form'
-import SampleParameterForm from '~/components/sample-parameter-form/sample-parameter-form'
 import {Unit} from '~/models/unit'
 
 export default defineComponent({
@@ -45,6 +44,10 @@ export default defineComponent({
 			},  unitId: string) => Promise<boolean>>,
 			required: true
 		},
+		whenCreateNewSampleParameter: {
+			type: Function as PropType<(name: string, description: string, abbreviation: string, kind: string) => Promise<boolean>>,
+			required: true
+		},
 		units: {
 			type: Array as PropType<Unit[]>,
 			required: true
@@ -53,7 +56,6 @@ export default defineComponent({
 
 	setup(props) {
 		const isShowCreateParameterForm = ref(false)
-		// const newParameter: Ref<NumParam | SampleParam | null> = ref(null)
 		const type: Ref<ParamType> = ref(ParamType.numParam)
 		const kind: Ref<ParamKind> = ref(ParamKind.reference)
 		const name = ref('')
@@ -66,6 +68,8 @@ export default defineComponent({
 			frontIncluded: false,
 		})
 		const selectedUnitId = ref('')
+		const isOk = ref(false)
+		const isShowNotification = ref(false)
 
 		const handleIntervalBracketsChange = (newValue: string) => {
 			switch (newValue) {
@@ -117,7 +121,19 @@ export default defineComponent({
 		}
 
 		const handleSubmitNumParameter = async () => {
-			const isOk = await props.whenCreateNewNumberParameter(name.value, description.value, abbreviation.value, kind.value, false, actionRange.value, selectedUnitId.value)
+			isOk.value = await props.whenCreateNewNumberParameter(name.value, description.value, abbreviation.value, kind.value, false, actionRange.value, selectedUnitId.value)
+			isShowNotification.value = true
+			setTimeout(() => {
+				isShowNotification.value = false
+			}, 1500)
+		}
+
+		const handleSubmitSampleParam = async () => {
+			isOk.value = await props.whenCreateNewSampleParameter(name.value, description.value, abbreviation.value, kind.value)
+			isShowNotification.value = true
+			setTimeout(() => {
+				isShowNotification.value = false
+			}, 1500)
 		}
 
 		const handleSelectUnitId = (value: string) => {
@@ -137,17 +153,24 @@ export default defineComponent({
 			handleDescriptionChange,
 			handleIntervalBracketsChange,
 			handleSubmitNumParameter,
+			handleSubmitSampleParam,
 			isShowCreateParameterForm,
 			type,
 			actionRange,
 			selectedUnitId,
-			handleSelectUnitId
+			handleSelectUnitId,
+			isOk,
+			isShowNotification,
 		}
 	},
 
 	render() {
 		return (
 			<div class={styles.aside}>
+				<Notification
+					isOk={this.isOk}
+					isShowNotification={this.isShowNotification}
+				/>
 				<VDialog
 					modelValue={this.isShowCreateParameterForm}
 					onUpdate:modelValue={this.handleCloseForm}
@@ -202,7 +225,26 @@ export default defineComponent({
 										units={this.units}
 									/>
 								) : (
-									<SampleParameterForm/>
+									<div class={styles.row}>
+										<VBtn
+											variant={'tonal'}
+											color={'success'}
+											/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+											/*@ts-ignore*/
+											onClick={this.handleSubmitSampleParam}
+										>
+											Сохранить
+										</VBtn>
+										<VBtn
+											variant={'tonal'}
+											color={'error'}
+											/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+											/*@ts-ignore*/
+											onClick={this.handleCloseForm}
+										>
+											Отменить
+										</VBtn>
+									</div>
 								)
 							}
 						</VCardText>

@@ -91,7 +91,7 @@ export default defineComponent({
 								<div
 									class={[
 										styles.itemText,
-									  item.unit_id === this.selectedUnit?.unit_id && styles.activeItem
+										item.unit_id === this.selectedUnit?.unit_id && styles.activeItem
 									]}
 									/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
 									/*@ts-ignore*/

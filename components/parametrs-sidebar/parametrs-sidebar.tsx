@@ -19,7 +19,6 @@ import {mdiPlus} from '@mdi/js'
 import {DROPDOWN_ITEMS} from '~/components/parameters-info-controller/parameters-info-controller'
 import {PARAM_KIND_READABLE, ParamKind, ParamType} from '~/types/param-type'
 import NumberParameterForm from '~/components/number-parameter-form/number-parameter-form'
-import SampleParameterForm from '~/components/sample-parameter-form/sample-parameter-form'
 import {Unit} from '~/models/unit'
 
 export default defineComponent({

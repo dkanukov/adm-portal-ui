@@ -25,7 +25,14 @@ export default defineComponent({
 						</VList>
 					</VMenu>
 				</VBtn>
-
+				<VBtn
+					class={styles.headerLinkButton}
+					color='primary'
+					variant='outlined'
+					to={'/ratio'}
+				>
+					Соотношения 
+				</VBtn>
 			</div>
 		)
 	}

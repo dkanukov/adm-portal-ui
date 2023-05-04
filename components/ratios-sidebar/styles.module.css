@@ -1,0 +1,42 @@
+.aside {
+    max-width: 30%;
+    height: calc(100vh - 86px);
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-right: 1px solid #D9D9D9;
+}
+
+
+.sidebarSearch {
+    padding-top: 10px;
+    margin-right: 20px;
+}
+
+.scrollContainer {
+	overflow-y: scroll;
+}
+
+.addButton {
+    margin-top: 10px;
+}
+
+
+.item {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.itemText {
+    cursor: pointer;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 8px;
+}
+
+.activeItem {
+    color: #1867C0;
+}

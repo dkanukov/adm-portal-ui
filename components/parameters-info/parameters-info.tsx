@@ -7,7 +7,6 @@ import {
 import styles from './styles.module.css'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
-import {VBtn} from 'vuetify/components'
 import {ParamType} from '~/types/param-type'
 import {Unit} from '~/models/unit'
 

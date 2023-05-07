@@ -3,6 +3,7 @@ import { useFetch, ref } from '#imports'
 import {Ref} from 'vue'
 import { api } from '~/constants/api'
 import { RatioParam } from '~/models/ratio-param'
+export type FieldName = 'name' | 'abbreveation' | 'description'
 
 export const ratiosStore = defineStore('ratioStore', () => {
 	const ratioParams: Ref<RatioParam[] | null> = ref(null)
@@ -25,10 +26,23 @@ export const ratiosStore = defineStore('ratioStore', () => {
 			ratioParams.value = data.value.map((param: any) => new RatioParam(param))
 		}
 	}
+
+	const whenRatioFieldChange = (value: string, field: FieldName) => {
+		if (!selectedRatio.value) {
+			return
+		}
+		switch (field) {
+			case 'name': selectedRatio.value.name = value; return
+			case 'abbreveation': selectedRatio.value.abbreviation = value; return
+			case 'description': selectedRatio.value.description = value; return
+		}
+	}
+
 	return {
 		ratioParams,
 		selectedRatio,
 		fetchRatioParams,
-		whenRatioParamSelect
+		whenRatioParamSelect,
+		whenRatioFieldChange ,
 	}
 })

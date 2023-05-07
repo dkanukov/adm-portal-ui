@@ -27,6 +27,7 @@ export default defineComponent({
 					this.ratio.selectedRatio && (
 						<RatioInfo
 							selectedRatio={this.ratio.selectedRatio}
+							whenRatioFieldChange={this.ratio.whenRatioFieldChange}	
 						/>
 					)
 				}

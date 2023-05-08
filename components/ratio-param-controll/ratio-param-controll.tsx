@@ -1,5 +1,6 @@
 import { defineComponent } from '#imports'
-import { PropType } from 'nuxt/dist/app/compat/capi'
+import { PropType, Ref } from 'nuxt/dist/app/compat/capi'
+import { onMounted, ref } from '#imports'
 import { VTextField, VTextarea } from 'vuetify/components'
 import { RatioParam } from '~/models/ratio-param'
 import styles from './styles.module.css'
@@ -22,10 +23,21 @@ export default defineComponent({
 			props.whenRatioFieldChange(value, field)	
 		}
 
+		const codeEditorTextarea: Ref<Element | null> = ref(null)
+		const codeEditor: Ref<| null> = ref(null)
+
+		onMounted(() => {
+			if (!codeEditorTextarea.value) {
+				return
+			}
+		})
+
 		return {
 			handleParameterFieldChange,
+			codeEditor
 		}
 	},
+
 
 	render() {
 		return (
@@ -55,6 +67,9 @@ export default defineComponent({
 					variant={'outlined'}
 					modelValue={this.selectedRatio.description}
 					onUpdate:modelValue={(value: string) => this.handleParameterFieldChange(value, 'description')}
+				/>
+				<textarea
+					ref={'codeEditorTextarea'}
 				/>
 			</div>
 		)

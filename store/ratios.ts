@@ -3,6 +3,7 @@ import { useFetch, ref } from '#imports'
 import {Ref} from 'vue'
 import { api } from '~/constants/api'
 import { RatioParam } from '~/models/ratio-param'
+import { getTokenFromStorage } from '~/helpers/get-token-from-storage'
 export type FieldName = 'name' | 'abbreveation' | 'description'
 
 export const ratiosStore = defineStore('ratioStore', () => {
@@ -18,7 +19,11 @@ export const ratiosStore = defineStore('ratioStore', () => {
 	}
 
 	const fetchRatioParams = async () => {
-		const { data } = await useFetch(`${api}/get_param_calc/`)
+		const { data } = await useFetch(`${api}/get_param_calc/`, {
+			headers: {
+				'Authorization': getTokenFromStorage()
+			}
+		})
 		console.log(data)
 		if (data) {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment

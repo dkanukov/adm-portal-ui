@@ -125,7 +125,6 @@ export default defineComponent({
 						onUpdate:modelValue={this.handleParameterAbbrInput}
 					/>
 				</div>
-				ratioController
 				<div class={styles.row}>
 					<VSelect
 						class={styles.selectFixedWidth}

@@ -1,6 +1,8 @@
-import { computed, defineComponent, definePageMeta, ref, useFetch } from '#imports' 
+import { computed, defineComponent, definePageMeta, navigateTo, ref, useFetch } from '#imports' 
 import { VBtn, VCard, VCardActions, VCardText, VCardTitle, VTextField } from 'vuetify/components'
 import styles from './styles.module.css'
+import { userStore } from '~/store/user'
+import Notification from '~/components/notification/notification'
 
 export default defineComponent({
 	setup() {
@@ -10,17 +12,17 @@ export default defineComponent({
 
 		const login = ref('')
 		const password = ref('')
+		const isShowNotification = ref(false)
+		const user = userStore()
 
 		const handleAuthButtonClick = async () => {
-			console.log(name, password)
-			const {data} = await useFetch('http://lab2222.auditory.ru/ift_asonika_k/auth/api-token-auth/', {
-				method: 'POST',
-				body: {
-					username: 'admin',
-					password: 'Q2w3e4r5!'
-				}
-			})
-			console.log(data.value)
+			const isOk = await user.whenUserAuth(login.value, password.value)
+			if (isOk) {
+				navigateTo('/')
+			} else {
+				isShowNotification.value = true
+				setTimeout(() => isShowNotification.value = false, 2000)
+			}
 		}
 
 		const isAuthButtonDisabled = computed(() => {
@@ -38,6 +40,7 @@ export default defineComponent({
 		return {
 			login,
 			password,
+			isShowNotification,
 			handleAuthButtonClick,
 			isAuthButtonDisabled,
 			handlePasswordInput,
@@ -82,6 +85,10 @@ export default defineComponent({
 						</VBtn>
 					</VCardActions>
 				</VCard>
+				<Notification
+					isShowNotification={this.isShowNotification}
+					isOk={false}
+				/>
 			</div>
 		)
 	}

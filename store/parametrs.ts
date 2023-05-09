@@ -6,6 +6,8 @@ import {SampleParam} from '~/models/sample-param'
 import {Unit} from '~/models/unit'
 import {Component} from '~/models/component'
 import {Ref} from 'vue'
+import { userStore } from './user'
+import { getTokenFromStorage } from '~/helpers/get-token-from-storage'
 
 export const parameterStore = defineStore('parameterStore', () => {
 	const selectedParameter: Ref<NumParam | SampleParam | null> = ref(null)
@@ -16,21 +18,36 @@ export const parameterStore = defineStore('parameterStore', () => {
 	const paramById: Ref<Record<number, NumParam | SampleParam>> = ref({})
 
 	const fetchNumParams = async () => {
-		const {data} = await useFetch(`${api}/get_num_param/`)
+		const userToken = getTokenFromStorage()
+		const {data} = await useFetch(`${api}/get_num_param/`, {
+			headers: {
+				'Authorization': userToken 
+			}
+		})
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		numParams.value = data.value.map((param) => new NumParam(param))
 	}
 
 	const fetchUnits = async () => {
-		const {data} = await useFetch(`${api}/get_units/`)
+		const userToken = getTokenFromStorage()
+		const {data} = await useFetch(`${api}/get_units/`, {
+			headers: {
+				'Authorization': userToken 
+			}
+		})
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		units.value = data.value.map((unit) => new Unit(unit))
 	}
 
 	const fetchSampleParams = async () => {
-		const {data} = await useFetch(`${api}/get_sample_param/`)
+		const userToken = getTokenFromStorage()
+		const {data} = await useFetch(`${api}/get_sample_param/`, {
+			headers: {
+				'Authorization': userToken 
+			}
+		})
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		sampleParams.value = data.value.map((param) => new SampleParam(param))
@@ -158,6 +175,9 @@ export const parameterStore = defineStore('parameterStore', () => {
 	const whenNumParamSubmitButtonClick = async (numParam: NumParam): Promise<boolean> => {
 		const {error} = await useFetch(`${api}/update_num_param/`, {
 			method: 'PUT',
+			headers: {
+				'Authorization': getTokenFromStorage()
+			},
 			body: {
 				name: numParam.name,
 				description: numParam.description,
@@ -182,6 +202,9 @@ export const parameterStore = defineStore('parameterStore', () => {
 	const whenAddNewComponent = async (paramId: number, name: string): Promise<boolean> => {
 		const {error} = await useFetch(`${api}/create_param_component/`, {
 			method: 'POST',
+			headers: {
+				'Authorization': getTokenFromStorage()
+			},
 			body: JSON.stringify([{
 				param_id: paramId,
 				name,
@@ -207,6 +230,9 @@ export const parameterStore = defineStore('parameterStore', () => {
 	}, unitId: string) => {
 		const {error} = await useFetch(`${api}/create_num_param/`, {
 			method: 'POST',
+			headers: {
+				'Authorization': getTokenFromStorage()
+			},
 			body: {
 				name,
 				description,
@@ -230,6 +256,9 @@ export const parameterStore = defineStore('parameterStore', () => {
 	const whenCreateNewSampleParameter = async (name: string, description: string, abbreviation: string, kind: string,) => {
 		const {error} = await useFetch(`${api}/create_sample_param/`, {
 			method: 'POST',
+			headers: {
+				'Authorization': getTokenFromStorage()
+			},
 			body: {
 				name,
 				description,

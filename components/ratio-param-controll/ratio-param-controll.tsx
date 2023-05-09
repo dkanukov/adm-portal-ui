@@ -24,7 +24,7 @@ export default defineComponent({
 		}
 
 		const codeEditorTextarea: Ref<Element | null> = ref(null)
-		const codeEditor: Ref<| null> = ref(null)
+		const codeEditor: Ref<null> = ref(null)
 
 		onMounted(() => {
 			if (!codeEditorTextarea.value) {

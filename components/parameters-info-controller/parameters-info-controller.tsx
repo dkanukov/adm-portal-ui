@@ -125,16 +125,6 @@ export default defineComponent({
 						onUpdate:modelValue={this.handleParameterAbbrInput}
 					/>
 				</div>
-				<VTextarea
-					class={styles.description}
-					rows={3}
-					maxRows={8}
-					density={'compact'}
-					label={'Описание'}
-					variant={'outlined'}
-					modelValue={this.selectedParameter.description}
-					onUpdate:modelValue={this.handleParameterDescriptionInput}
-				/>
 				<div class={styles.row}>
 					<VSelect
 						class={styles.selectFixedWidth}

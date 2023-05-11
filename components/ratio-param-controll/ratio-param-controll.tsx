@@ -23,18 +23,8 @@ export default defineComponent({
 			props.whenRatioFieldChange(value, field)	
 		}
 
-		const codeEditorTextarea: Ref<Element | null> = ref(null)
-		const codeEditor: Ref<null> = ref(null)
-
-		onMounted(() => {
-			if (!codeEditorTextarea.value) {
-				return
-			}
-		})
-
 		return {
 			handleParameterFieldChange,
-			codeEditor
 		}
 	},
 
@@ -67,9 +57,6 @@ export default defineComponent({
 					variant={'outlined'}
 					modelValue={this.selectedRatio.description}
 					onUpdate:modelValue={(value: string) => this.handleParameterFieldChange(value, 'description')}
-				/>
-				<textarea
-					ref={'codeEditorTextarea'}
 				/>
 			</div>
 		)

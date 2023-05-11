@@ -1,6 +1,6 @@
 import {defineComponent} from '#imports'
 import { PropType } from 'vue' 
-import { RatioParamControll } from '#components'
+import { RatioParamControll, RatioParamEditor } from '#components'
 import { RatioParam } from '~/models/ratio-param'
 import styles from './styles.module.css'
 import { FieldName } from '~/store/ratios'
@@ -22,6 +22,9 @@ export default defineComponent({
 				<RatioParamControll
 					selectedRatio={this.selectedRatio}
 					whenRatioFieldChange={this.whenRatioFieldChange}
+				/>
+				<RatioParamEditor
+					selectedRatio={this.selectedRatio}
 				/>
 			</div>
 		)

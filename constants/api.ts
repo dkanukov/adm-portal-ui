@@ -1,1 +1,1 @@
-export const api = 'http://94.103.87.41:8000/api'
+export const api = 'https://lab2222.auditory.ru/ift_asonika_k/api'

@@ -6,8 +6,8 @@ import {SampleParam} from '~/models/sample-param'
 import {Unit} from '~/models/unit'
 import {Component} from '~/models/component'
 import {Ref} from 'vue'
-import { userStore } from './user'
 import { getTokenFromStorage } from '~/helpers/get-token-from-storage'
+import { Accusation } from '~/models/accusation'
 
 export const parameterStore = defineStore('parameterStore', () => {
 	const selectedParameter: Ref<NumParam | SampleParam | null> = ref(null)
@@ -16,6 +16,7 @@ export const parameterStore = defineStore('parameterStore', () => {
 	const units: Ref<Unit[]> = ref([])
 	const allParams: Ref<(NumParam | SampleParam)[] | null> = ref(null)
 	const paramById: Ref<Record<number, NumParam | SampleParam>> = ref({})
+	const accusation: Ref<Accusation[] | null> = ref(null) 
 
 	const fetchNumParams = async () => {
 		const userToken = getTokenFromStorage()
@@ -53,11 +54,25 @@ export const parameterStore = defineStore('parameterStore', () => {
 		sampleParams.value = data.value.map((param) => new SampleParam(param))
 	}
 
+	const fetchAccusations = async () => {
+		const {data} = await useFetch(`${api}/accusation_get/`, {
+			headers: {
+				'Authorization': getTokenFromStorage()
+			}
+		})
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		// accusation.value = new Accusation(data.value[0])
+		// console.log(accusation.value)
+		accusation.value = data.value.map((acc: any) => new Accusation(acc))
+	}
+
 	const fetchAllParams = async () => {
 		await Promise.all([
 			fetchSampleParams(),
 			fetchNumParams(),
 			fetchUnits(),
+			fetchAccusations(),
 		])
 		if (!numParams.value || !sampleParams.value) {
 			return
@@ -269,6 +284,33 @@ export const parameterStore = defineStore('parameterStore', () => {
 		return !error.value
 	}
 
+	const whenSendMessageToAccusation = async (accusationId: number, message: string) => {
+		const {error} = await useFetch(`${api}/accusation_comment/`, {
+			method: 'POST',
+			headers: {
+				'Authorization': getTokenFromStorage()
+			},
+			body: {
+				accusation_id: accusationId,
+				text: message,
+			}
+		})
+
+		if (!error.value) {
+			const updatedAccusation = accusation.value?.find((acc) => acc.accusationId === accusationId)
+			if (updatedAccusation) {
+				updatedAccusation.comments.push({
+					text: message,
+					changeDate: new Date().toString(),
+					authorId: updatedAccusation.creatorId
+				})
+			}
+			return true
+		}
+
+		return false
+	}
+
 	return {
 		numParams,
 		sampleParams,
@@ -290,5 +332,8 @@ export const parameterStore = defineStore('parameterStore', () => {
 		fetchSampleParams,
 		fetchAllParams,
 		fetchUnits,
+		fetchAccusations,
+		accusation,
+		whenSendMessageToAccusation,
 	}
 })

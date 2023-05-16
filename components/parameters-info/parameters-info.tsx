@@ -9,6 +9,7 @@ import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {ParamType} from '~/types/param-type'
 import {Unit} from '~/models/unit'
+import { Accusation } from '~/models/accusation'
 
 export default defineComponent({
 	props: {
@@ -19,6 +20,10 @@ export default defineComponent({
 		units: {
 			required: true,
 			type: Array as PropType<Unit[]>
+		},
+		accusations: {
+			required: true,
+			type: Array as PropType<Accusation[]>
 		},
 		whenSelectedParameterFieldChange: {
 			type: Function as PropType<(newValue: NumParam | SampleParam) => void>,
@@ -51,6 +56,10 @@ export default defineComponent({
 		whenSelectedParameterDefaultMultiplierChange: {
 			type: Function as PropType<(multiplier: number) => void>,
 			required: true,
+		},
+		whenSendMessageToAccusation: {
+			type: Function as PropType<(accusationId: number, message: string) => Promise<boolean>>,
+			required: true,
 		}
 	},
 
@@ -58,8 +67,10 @@ export default defineComponent({
 		return (
 			<div class={styles.parametersController}>
 				<ParametersInfoController
+					accusations={this.accusations}
 					selectedParameter={this.selectedParameter}
 					whenSelectedParameterFieldChange={this.whenSelectedParameterFieldChange}
+					whenSendMessageToAccusation={this.whenSendMessageToAccusation}
 				/>
 				<div>
 					{

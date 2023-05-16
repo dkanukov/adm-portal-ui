@@ -1,4 +1,13 @@
 .dialog {
     position: absolute;
-    left: calc(100vw - 40%);
+    left: calc(100vw - 50%);
+}
+
+.message:not(:last-child) {
+	margin-bottom: 8px;
+}
+
+.expPanel {
+	max-height: calc(100vh - 240px);
+	overflow: scroll;
 }

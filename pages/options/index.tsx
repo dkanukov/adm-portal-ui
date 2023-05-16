@@ -24,11 +24,13 @@ export default defineComponent({
 						whenCreateNewSampleParameter={this.parameterStore.whenCreateNewSampleParameter}
 						units={this.parameterStore.units}
 				/>}
-				{this.parameterStore.selectedParameter &&
+				{this.parameterStore.selectedParameter && this.parameterStore.accusation &&
 					<ParametersInfo
 						class={styles.info}
 						selectedParameter={this.parameterStore.selectedParameter}
 						units={this.parameterStore.units}
+						accusations={this.parameterStore.accusation}
+						whenSendMessageToAccusation={this.parameterStore.whenSendMessageToAccusation}
 						whenSelectedParameterUnitChange={this.parameterStore.whenSelectedParameterUnitChange}
 						whenSelectedParameterFieldChange={this.parameterStore.whenSelectedParameterFieldChange}
 						whenNumParameterBracketsChange={this.parameterStore.whenNumParameterBracketsChange}

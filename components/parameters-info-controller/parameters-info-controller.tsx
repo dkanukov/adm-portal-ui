@@ -1,12 +1,13 @@
 import {defineComponent, ref} from '#imports'
 import {ParameterThread} from '#components'
-import {VBtn, VCheckbox, VSelect, VTextarea, VTextField} from 'vuetify/components'
+import {VBtn, VCheckbox, VSelect, VTextField, VTextarea} from 'vuetify/components'
 import {mdiCommentMultipleOutline} from '@mdi/js'
 import styles from './styles.module.css'
 import {PropType} from 'vue'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {ParamKind} from '~/types/param-type'
+import { Accusation } from '~/models/accusation'
 
 export const DROPDOWN_ITEMS = [
 	{
@@ -21,6 +22,10 @@ export const DROPDOWN_ITEMS = [
 
 export default defineComponent({
 	props: {
+		accusations: {
+			required: true,
+			type: Array as PropType<Accusation[]>
+		},
 		selectedParameter: {
 			type: Object as PropType<SampleParam | NumParam>,
 			required: true,
@@ -29,6 +34,10 @@ export default defineComponent({
 			type: Function as PropType<(newValue: NumParam) => void>,
 			required: true,
 		},
+		whenSendMessageToAccusation: {
+			type: Function as PropType<(accusationId: number, message: string) => Promise<boolean>>,
+			required: true,
+		}
 	},
 
 	setup(props) {
@@ -125,6 +134,12 @@ export default defineComponent({
 						onUpdate:modelValue={this.handleParameterAbbrInput}
 					/>
 				</div>
+				<VTextarea
+					variant={'outlined'}
+					label={'Описание'}
+					modelValue={this.selectedParameter.description}
+					onUpdate:modelValue={this.handleParameterDescriptionInput}
+				/>
 				<div class={styles.row}>
 					<VSelect
 						class={styles.selectFixedWidth}
@@ -147,9 +162,11 @@ export default defineComponent({
 						/>)}
 				</div>
 				<ParameterThread
+					accusations={this.accusations}
 					handleCloseThreadButtonClick={this.handleCloseThreadButtonClick}
 					isShowThread={this.isShowThread}
 					selectedParameter={this.selectedParameter}
+					whenSendMessageToAccusation={this.whenSendMessageToAccusation}
 				/>
 			</div>
 		)

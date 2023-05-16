@@ -9,7 +9,7 @@ import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {ParamType} from '~/types/param-type'
 import {Unit} from '~/models/unit'
-import { Accusation } from '~/models/accusation'
+import { Accusation, AccusationStatus } from '~/models/accusation'
 
 export default defineComponent({
 	props: {
@@ -60,6 +60,10 @@ export default defineComponent({
 		whenSendMessageToAccusation: {
 			type: Function as PropType<(accusationId: number, message: string) => Promise<boolean>>,
 			required: true,
+		},
+		whenChangeAccustationStatus: {
+			type: Function as PropType<(accusationId: number, status: AccusationStatus) => Promise<boolean>>,
+			required: true,
 		}
 	},
 
@@ -71,6 +75,7 @@ export default defineComponent({
 					selectedParameter={this.selectedParameter}
 					whenSelectedParameterFieldChange={this.whenSelectedParameterFieldChange}
 					whenSendMessageToAccusation={this.whenSendMessageToAccusation}
+					whenChangeAccustationStatus={this.whenChangeAccustationStatus}
 				/>
 				<div>
 					{

@@ -12,12 +12,14 @@ import {
     VExpansionPanelText,
     VTextField,
     VTextarea,
+    VExpansionPanelTitle,
+    VSelect,
 } from 'vuetify/components'
 import {mdiClose} from '@mdi/js'
 import {PropType} from 'vue'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
-import { Accusation } from '~/models/accusation'
+import { Accusation, AccusationStatus } from '~/models/accusation'
 import { dateFormatter } from '~/helpers/date-formatter'
 import { mdiSendCircle } from '@mdi/js'
 import { Ref } from 'nuxt/dist/app/compat/capi'
@@ -43,10 +45,15 @@ export default defineComponent({
 		whenSendMessageToAccusation: {
 			type: Function as PropType<(accusationId: number, message: string) => Promise<boolean>>,
 			required: true,
+		},
+		whenChangeAccustationStatus: {
+			type: Function as PropType<(accusationId: number, status: AccusationStatus) => Promise<boolean>>,
+			required: true,
 		}
 	},
 
 	setup(props) {
+		console.log(props.accusations[0].stages)
 		const inputValue = ref('')
 		const accusationId: Ref<null | number> = ref(null)
 
@@ -77,11 +84,17 @@ export default defineComponent({
 			inputValue.value = ''
 		}
 
+		const handleAccustationStatusChange = async (val: AccusationStatus, accusationId: number) => {
+			console.log(val, accusationId)
+			const isOk = await props.whenChangeAccustationStatus(accusationId, val)
+		}
+
 		return {
 			inputValue,
 			handleSendMessageButtonClick,
 			handleMessageInput,
 			handleInputFocus,
+			handleAccustationStatusChange,
 		}
 	},
 	render() {
@@ -111,7 +124,21 @@ export default defineComponent({
 					<VExpansionPanels>
 					{
 						this.accusations.map((accusation) => (
-							<VExpansionPanel key={accusation.accusationId} title={accusation.comments[0].text}>
+							<VExpansionPanel key={accusation.accusationId}>
+								<VExpansionPanelTitle class={styles.expPanelTitle}>
+										<p>
+											{accusation.comments[0].text}
+										</p>
+										<VSelect
+											class={styles.statusPicker}
+											hideDetails={'auto'}
+											variant={'outlined'}
+											density={'compact'}
+											items={['ERROR', 'WARNING', 'READY_FOR_TEST', 'ACCEPTED', 'REJECTED']}
+											modelValue={this.accusations[0].stages[0].status}
+											onUpdate:modelValue={(val) => this.handleAccustationStatusChange(val, accusation.accusationId)}
+										/>
+								</VExpansionPanelTitle>
 								<VExpansionPanelText>
 										<div class={styles.expPanel}>
 										{

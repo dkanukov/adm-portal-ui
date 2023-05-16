@@ -39,6 +39,7 @@ export default defineComponent({
 						whenNumParamSubmitButtonClick={this.parameterStore.whenNumParamSubmitButtonClick}
 						whenAddNewComponent={this.parameterStore.whenAddNewComponent}
 						whenSelectedParameterDefaultMultiplierChange={this.parameterStore.whenSelectedParameterDefaultMultiplierChange}
+						whenChangeAccustationStatus={this.parameterStore.whenChangeAccustationStatus}
 				/>}
 			</div>
 		)

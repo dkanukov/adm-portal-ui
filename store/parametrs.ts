@@ -7,7 +7,7 @@ import {Unit} from '~/models/unit'
 import {Component} from '~/models/component'
 import {Ref} from 'vue'
 import { getTokenFromStorage } from '~/helpers/get-token-from-storage'
-import { Accusation } from '~/models/accusation'
+import { Accusation, AccusationStatus } from '~/models/accusation'
 
 export const parameterStore = defineStore('parameterStore', () => {
 	const selectedParameter: Ref<NumParam | SampleParam | null> = ref(null)
@@ -311,6 +311,29 @@ export const parameterStore = defineStore('parameterStore', () => {
 		return false
 	}
 
+	const whenChangeAccustationStatus = async (accusationId: number, status: AccusationStatus) => {
+		const {error} = await useFetch(`${api}/accusation_stage/`, {
+			method: 'POST',
+			headers: {
+				'Authorization': getTokenFromStorage(),
+			},
+			body: {
+				accusation_id: accusationId,
+				status: status,
+			}
+		})
+
+		if(!error.value) {
+			const updatedAccusation = accusation.value?.find((acc) => acc.accusationId === accusationId)
+			if (updatedAccusation) {
+				updatedAccusation.stages[0].status = status
+			}
+			return true
+		}
+
+		return false
+	}
+
 	return {
 		numParams,
 		sampleParams,
@@ -335,5 +358,6 @@ export const parameterStore = defineStore('parameterStore', () => {
 		fetchAccusations,
 		accusation,
 		whenSendMessageToAccusation,
+		whenChangeAccustationStatus,
 	}
 })

@@ -11,3 +11,12 @@
 	max-height: calc(100vh - 240px);
 	overflow: scroll;
 }
+
+.statusPicker {
+	max-width: 200px;
+}
+
+.expPanelTitle {
+	display: flex;
+	gap: 12px;
+}

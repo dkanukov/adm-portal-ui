@@ -7,7 +7,7 @@ import {PropType} from 'vue'
 import {NumParam} from '~/models/num-param'
 import {SampleParam} from '~/models/sample-param'
 import {ParamKind} from '~/types/param-type'
-import { Accusation } from '~/models/accusation'
+import { Accusation, AccusationStatus } from '~/models/accusation'
 
 export const DROPDOWN_ITEMS = [
 	{
@@ -37,7 +37,11 @@ export default defineComponent({
 		whenSendMessageToAccusation: {
 			type: Function as PropType<(accusationId: number, message: string) => Promise<boolean>>,
 			required: true,
-		}
+		},
+		whenChangeAccustationStatus: {
+			type: Function as PropType<(accusationId: number, status: AccusationStatus) => Promise<boolean>>,
+			required: true,
+		},
 	},
 
 	setup(props) {
@@ -167,6 +171,7 @@ export default defineComponent({
 					isShowThread={this.isShowThread}
 					selectedParameter={this.selectedParameter}
 					whenSendMessageToAccusation={this.whenSendMessageToAccusation}
+					whenChangeAccustationStatus={this.whenChangeAccustationStatus}
 				/>
 			</div>
 		)

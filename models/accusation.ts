@@ -1,3 +1,4 @@
+export type AccusationStatus = 'ERROR' | 'WARNING' | 'READY_FOR_TEST' | 'ACCEPTED' | 'REJECTED'
 export class Accusation {
 	accusationId!: number
 	comments!: {
@@ -12,8 +13,8 @@ export class Accusation {
 	stages!: {
 		changeDate: string
 		changerId: number
-		status: string //TODO: заменить статусы енамом
-	}
+		status: AccusationStatus
+	}[]
 
 	constructor(dto: any) {
 		this.accusationId = dto.accusation_id

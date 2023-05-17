@@ -10,7 +10,6 @@ import {
     VExpansionPanel,
     VExpansionPanels,
     VExpansionPanelText,
-    VTextField,
     VTextarea,
     VExpansionPanelTitle,
     VSelect,
@@ -85,7 +84,6 @@ export default defineComponent({
 		}
 
 		const handleAccustationStatusChange = async (val: AccusationStatus, accusationId: number) => {
-			console.log(val, accusationId)
 			const isOk = await props.whenChangeAccustationStatus(accusationId, val)
 		}
 
